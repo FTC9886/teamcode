@@ -85,7 +85,7 @@ public class AutoHardware {
     }
 
     protected long inchesToEncoderCounts(double distance){
-        return Math.round(((distance / (Math.PI * 4.0)) / 1.1) * 1120);
+        return Math.round(((distance / (Math.PI * 6.0)) / 1.1) * 1120);
     }
 
 
