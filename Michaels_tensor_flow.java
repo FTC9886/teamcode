@@ -17,6 +17,9 @@ public class Michaels_tensor_flow {
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
+    public enum goldfinder{
+        LEFT,RIGHT,MIDDLE,UNKNOWN
+    }
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
      * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
@@ -97,7 +100,9 @@ public class Michaels_tensor_flow {
         }
     }
 
-    public void getGoldPosition(Telemetry telemetry) {
+
+    public goldfinder getGoldPosition(Telemetry telemetry) {
+        goldfinder goldPosition = goldfinder.UNKNOWN;
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
@@ -120,15 +125,19 @@ public class Michaels_tensor_flow {
                     if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                         if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
                             telemetry.addData("Gold Mineral Position", "Left");
+                            goldPosition = goldfinder.LEFT;
                         } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
                             telemetry.addData("Gold Mineral Position", "Right");
+                            goldPosition = goldfinder.RIGHT;
                         } else {
                             telemetry.addData("Gold Mineral Position", "Center");
+                            goldPosition = goldfinder.MIDDLE;
                         }
                     }
                 }
                 telemetry.update();
             }
         }
+        return goldPosition;
     }
 }
