@@ -15,9 +15,9 @@ public class AutoHardware {
     public DcMotor  right_back_drive   = null;
 
     //Define other subsystems/motors
-    public DcMotor hang_arm;
-    public DcMotor extend_arm;
-    public DcMotor rotate_arm;
+    public HangArm hangArm;
+    public ExtenderArm extenderArm;
+    public RotateArm rotateArm;
 
     //Define Servos
 
@@ -44,9 +44,9 @@ public class AutoHardware {
         left_back_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        DcMotor hang_arm = opMode.hardwareMap.dcMotor.get("hang_arm");
-        DcMotor extend_arm = opMode.hardwareMap.dcMotor.get("extend_arm");
-        DcMotor rotate_arm = opMode.hardwareMap.dcMotor.get("rotate_arm");
+        hangArm = new HangArm("hang_arm","upper_touch","lower_touch", opMode.hardwareMap);
+        extenderArm = new ExtenderArm("extend_arm", opMode.hardwareMap);
+        rotateArm = new RotateArm("rotate_arm", opMode.hardwareMap);
 
         //Sensor Setup
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

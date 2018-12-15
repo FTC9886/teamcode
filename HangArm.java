@@ -41,7 +41,7 @@ public class HangArm {
         if (isFullyRaised()) {
             stop();
         } else {
-            linearDrive.setPower(0.5);
+            linearDrive.setPower(-0.75);
             hangArmState = HangArmEnum.RAISING;
         }
     }
@@ -50,7 +50,7 @@ public class HangArm {
         if (isFullyLowered()) {
             stop();
         } else {
-            linearDrive.setPower(-0.5);
+            linearDrive.setPower(0.75);
             hangArmState = HangArmEnum.LOWERING;
         }
     }
