@@ -38,12 +38,7 @@ public class Blue_Crater_BC_Fast extends LinearOpMode {
         //lower down
         robot.driveRight(this, 10, 0.5, 5);
 
-        try {
-            robot.wait(30000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        robot.pause(30000);
 
         robot.driveLeft(this, 10, 0.5, 5);
 
