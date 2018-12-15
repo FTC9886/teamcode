@@ -31,7 +31,8 @@ public class Blue_Crater_BC_Fast extends LinearOpMode {
 
         tensor_flow.activate();
         //FIND GOLD
-        tensor_flow.getGoldPosition();
+        Michaels_tensor_flow.goldfinder goldPosition = tensor_flow.getGoldPosition(telemetry);
+
         tensor_flow.deactivate();
 
         //lower down
