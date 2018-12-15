@@ -54,9 +54,11 @@ public class Hardware
 
     static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: Rev Hex Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.1 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     WHEEL_DIAMETER_INCHES   = 6.0 ;     // For figuring circumference
+    static final double     COUNTS_PER_INCH_LandR   = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1416);
+    static final double     COUNTS_PER_INCH_FandB   = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1416) /(2);
 
     /* Constructor */
     public Hardware()
@@ -134,15 +136,18 @@ public class Hardware
         // Reset the cycle clock for the next pass.
         period.reset();
     }
-
-    public void drive (LinearOpMode opMode, double inches, double speed, double timeoutS)
+    public void driveLeft (LinearOpMode opMode, double inches, double speed, double timeoutS)
     {
-        int newLeftFrontTarget  = left_front_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-        int newRightFrontTarget = right_front_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+        driveRight(opMode, -inches, speed, timeoutS);
+    }
+    public void driveRight (LinearOpMode opMode, double inches, double speed, double timeoutS)
+    {
+        int newLeftFrontTarget  = left_front_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_LandR);
+        int newRightFrontTarget = right_front_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_FandB);
         left_front_drive.setTargetPosition(newLeftFrontTarget);
         right_front_drive.setTargetPosition(newRightFrontTarget);
-        int newLeftBackTarget  = left_back_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-        int newRightBackTarget = right_back_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+        int newLeftBackTarget  = left_back_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_LandR);
+        int newRightBackTarget = right_back_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_FandB);
         left_back_drive.setTargetPosition(newLeftBackTarget);
         right_back_drive.setTargetPosition(newRightBackTarget);
 
@@ -178,5 +183,82 @@ public class Hardware
         left_back_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         right_back_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
+    public void driveBackward (LinearOpMode opMode, double inches, double speed, double timeoutS)
+    {
+        driveForward(opMode, -inches, speed, timeoutS);
+    }
+
+    public void driveForward (LinearOpMode opMode, double inches, double speed, double timeoutS)
+    {
+        int newLeftFrontTarget  = left_front_drive.getCurrentPosition() + (int)(-inches * COUNTS_PER_INCH_LandR);
+        int newRightFrontTarget = right_front_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_FandB);
+        left_front_drive.setTargetPosition(newLeftFrontTarget);
+        right_front_drive.setTargetPosition(newRightFrontTarget);
+        int newLeftBackTarget  = left_back_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_LandR);
+        int newRightBackTarget = right_back_drive.getCurrentPosition() + (int)(-inches * COUNTS_PER_INCH_FandB);
+        left_back_drive.setTargetPosition(newLeftBackTarget);
+        right_back_drive.setTargetPosition(newRightBackTarget);
+
+        // Turn On RUN_TO_POSITION
+        left_front_drive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        right_front_drive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        left_back_drive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        right_back_drive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // reset the timeout time and start motion
+        ElapsedTime     runtime = new ElapsedTime();
+        runtime.reset();
+        left_front_drive.setPower(Math.abs(speed));
+        right_front_drive.setPower(Math.abs(speed));
+        left_back_drive.setPower(Math.abs(speed));
+        right_back_drive.setPower(Math.abs(speed));
+
+        while (opMode.opModeIsActive() &&
+                (runtime.seconds() < timeoutS) &&
+                (left_front_drive.isBusy() && right_front_drive.isBusy()))
+        {
+        }
+
+        // Stop all motion;
+        left_front_drive.setPower(0);
+        right_front_drive.setPower(0);
+        left_back_drive.setPower(0);
+        right_back_drive.setPower(0);
+
+        // Turn off RUN_TO_POSITION
+        left_front_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right_front_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        left_back_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right_back_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+
+    public void lowerRobotUsingTouchSensor () {
+
+//        //TODO touch sensors for the min and max of the lowering arms travel (touch sensor raised, rouch sensor lowered)
+//        //start lowering down
+//        hang_arm.setPower(1.0);
+//        //wait until contracted ouch sensor is pressed
+//        do {
+//            waitForTick(1);
+//        }
+//        while (!touchSensorContracted.ispressed());
+//        //stop lowing the robot
+//        hang_arm.setPower(0.0);
+
+
+
+    }
+
+    public void pause(long millis )
+    {
+        try {
+            Thread.sleep(millis );
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
 
