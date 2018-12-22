@@ -19,6 +19,7 @@ public class CombinedHardware {
     public HangArm hangArm;
     public ExtenderArm extenderArm;
     public RotateArm rotateArm;
+    public Collector collector;
 
     //Define Servos
 
@@ -55,6 +56,7 @@ public class CombinedHardware {
         hangArm = new HangArm("hang_arm","upper_touch","lower_touch", ahwMap);
         extenderArm = new ExtenderArm("extend_arm", ahwMap);
         rotateArm = new RotateArm("rotate_arm", ahwMap);
+        collector = new Collector("collector", ahwMap);
 
         //Sensor Setup
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
