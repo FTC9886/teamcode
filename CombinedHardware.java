@@ -202,9 +202,7 @@ public class CombinedHardware {
 
     }
 
-    public void turnRight(){
-
-    }
+    public void turnRight(){}
 
     //Sleep while catching InteruptedException
     public void pause(long millis )
