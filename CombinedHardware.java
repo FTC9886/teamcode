@@ -96,6 +96,16 @@ public class CombinedHardware {
         leftDrivePower(leftSpeed);
         rightDrivePower(rightSpeed);
     }
+
+    //Set Translate Powers
+    public void powerTranslate(double power){
+        left_front_drive.setPower(power);
+        left_back_drive.setPower(power);
+        right_back_drive.setPower(-power);
+        right_front_drive.setPower(-power);
+    }
+
+
     //Stops the DriveTrain
     public void stopDrive(){
         drivePowers(0.0, 0.0);
