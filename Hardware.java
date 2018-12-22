@@ -52,13 +52,13 @@ public class Hardware
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: Rev Hex Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 1.1 ;     // This is < 1.0 if geared UP
+    static final double     COUNTS_PER_MOTOR_REV    = 653 ;    // eg: Rev Hex Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 1.1 ;     // This is < 1.0 if geared DOWN
     static final double     WHEEL_DIAMETER_INCHES   = 6.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH_LandR   = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1416);
     static final double     COUNTS_PER_INCH_FandB   = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1416) /(2);
+            (WHEEL_DIAMETER_INCHES * 3.1416) / (2);
 
     /* Constructor */
     public Hardware()
@@ -82,8 +82,8 @@ public class Hardware
 
         left_front_drive.setDirection(DcMotor.Direction.FORWARD);
         right_front_drive.setDirection(DcMotor.Direction.FORWARD);
-        left_back_drive.setDirection(DcMotor.Direction.FORWARD);
-        right_back_drive.setDirection(DcMotor.Direction.FORWARD);
+        left_back_drive.setDirection(DcMotor.Direction.REVERSE);
+        right_back_drive.setDirection(DcMotor.Direction.REVERSE);
 
         hang_arm.setDirection(DcMotor.Direction.FORWARD);
         extend_arm.setDirection(DcMotor.Direction.FORWARD);
@@ -136,11 +136,11 @@ public class Hardware
         // Reset the cycle clock for the next pass.
         period.reset();
     }
-    public void driveLeft (LinearOpMode opMode, double inches, double speed, double timeoutS)
-    {
-        driveRight(opMode, -inches, speed, timeoutS);
-    }
     public void driveRight (LinearOpMode opMode, double inches, double speed, double timeoutS)
+    {
+        driveLeft(opMode, -inches, speed, timeoutS);
+    }
+    public void driveLeft (LinearOpMode opMode, double inches, double speed, double timeoutS)
     {
         int newLeftFrontTarget  = left_front_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_LandR);
         int newRightFrontTarget = right_front_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_FandB);

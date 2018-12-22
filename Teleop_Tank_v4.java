@@ -108,8 +108,8 @@ public class Teleop_Tank_v4 extends OpMode{
         {
             robot.left_front_drive.setPower (gamepad1_left);
             robot.right_front_drive.setPower(gamepad1_right);
-            robot.left_back_drive.setPower  (gamepad1_left);
-            robot.right_back_drive.setPower (gamepad1_right);
+            robot.left_back_drive.setPower  (-gamepad1_left);
+            robot.right_back_drive.setPower (-gamepad1_right);
         }
 
 //        else if (gamepad1.dpad_up)
@@ -127,15 +127,15 @@ public class Teleop_Tank_v4 extends OpMode{
         {
             robot.left_front_drive.setPower (-gamepad1.right_trigger/1.5);
             robot.right_front_drive.setPower(-gamepad1.right_trigger/1.5);
-            robot.left_back_drive.setPower  (gamepad1.right_trigger/1.5);
-            robot.right_back_drive.setPower (gamepad1.right_trigger/1.5);
+            robot.left_back_drive.setPower  (-gamepad1.right_trigger/1.5);
+            robot.right_back_drive.setPower (-gamepad1.right_trigger/1.5);
         }
         else if (gamepad1.left_trigger > 0.1)
         {
             robot.left_front_drive.setPower (gamepad1.left_trigger/1.5);
             robot.right_front_drive.setPower(gamepad1.left_trigger/1.5);
-            robot.left_back_drive.setPower  (-gamepad1.left_trigger/1.5);
-            robot.right_back_drive.setPower (-gamepad1.left_trigger/1.5);
+            robot.left_back_drive.setPower  (gamepad1.left_trigger/1.5);
+            robot.right_back_drive.setPower (gamepad1.left_trigger/1.5);
         }
         else
         {
