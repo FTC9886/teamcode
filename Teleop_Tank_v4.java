@@ -123,6 +123,7 @@ public class Teleop_Tank_v4 extends OpMode{
 //            robot.right_front_drive.setPower(-0.3);
 //        }
 
+        //Translate left and right
         else if (gamepad1.right_trigger > 0.1)
         {
             robot.left_front_drive.setPower (-gamepad1.right_trigger/1.5);
