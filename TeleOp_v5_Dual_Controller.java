@@ -113,9 +113,14 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         }
 
         telemetry.update();
+    }
 
-
-
-
+    @Override
+    public void stop(){
+        robot.stopDrive();
+        robot.collector.stop();
+        robot.extenderArm.stop();
+        robot.rotateArm.stop();
+        robot.hangArm.stop();
     }
 }
