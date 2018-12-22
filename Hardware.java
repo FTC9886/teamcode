@@ -52,7 +52,7 @@ public class Hardware
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: Rev Hex Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 653 ;    // eg: Rev Hex Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.1 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 6.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH_LandR   = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
