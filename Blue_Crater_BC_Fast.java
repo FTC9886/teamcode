@@ -51,26 +51,26 @@ public class Blue_Crater_BC_Fast extends LinearOpMode {
                 //turn robot to the left to face the wall
                     // robot.turnLeft(90 *);
                 //drive toward the wall
-                robot.translateForward(this, 17, 0.30, 5);
+                robot.translateForward(this, 33.9, 0.30, 5);
                 //turn to be parallel with wall
                     //robot.turnLeft(45 *);
                 //drive to depot
-                robot.translateForward(this, 60, 0.50, 10);
+                robot.driveLeft(this, 60, 0.50, 10);
                 //deposit marker
                     //robot.markerServo.setPosition(x);
                 //drive to crater
-                robot.translateForward(this, 74, 0.75, 10);
+                robot.driveRight(this, 74, 0.75, 10);
                 break;
 
             case RIGHT:
                 //drive 2" from minerals
-                robot.translateForward(this, 30, 0.50, 5);
+                robot.driveRight(this, 30, 0.50, 5);
                 //drive to right block
-                robot.driveRight(this, 11, 0.50, 5);
+                robot.translateBackward(this, 11, 0.50, 5);
                 //push right block
-                robot.translateForward(this, 4, 0.50, 3);
+                robot.driveRight(this, 4, 0.50, 3);
                 //back up
-                robot.translateBackward(this, 6, 0.50, 3);
+                robot.driveLeft(this, 6, 0.50, 3);
                 //turn robot left to face the wall
                     //robot.turnLeft(90 *);
                 //drive toward the wall
@@ -78,33 +78,31 @@ public class Blue_Crater_BC_Fast extends LinearOpMode {
                 //turn to be parallel with the wall
                     //robot.turnLeft(45 *);
                 //drive to depot
-                robot.translateForward(this, 36, 0.50, 5);
+                robot.driveLeft(this, 36, 0.50, 5);
                 //drive to crater
-                robot.translateForward(this, 74, 0.75, 10);
+                robot.driveRight(this, 74, 0.75, 10);
                 break;
 
             case MIDDLE:
-                //drive 2" from minerals
-                robot.translateForward(this, 30, 0.50, 10);
-                //push middle block
-                robot.translateForward(this, 4, 0.50, 3);
+                //Drive to and push middle block
+                robot.driveRight(this, 34, 0.50, 10);
                 //back up
-                robot.translateForward(this, 6, 0.50, 3);
+                robot.driveLeft(this, 6, 0.50, 3);
                 //turn robot left to face the wall
                     //robot.turnLeft(90 *);
                 //drive toward the wall
                 robot.translateForward(this, 67, 0.75, 10);
                 //turn to be parallel with the wall
-                    //robot.turnLeft(45 *);
+                    //robot.turnRight(45 *);
                 //drive to depot
-                robot.translateForward(this, 36, 0.50, 5);
+                robot.driveLeft(this, 36, 0.50, 5);
                 //drive to crater
-                robot.translateForward(this, 74, 0.75, 10);
+                robot.driveRight(this, 74, 0.75, 10);
                 break;
 
             case UNKNOWN:
             default: //like unknown
-                //drive strait and hope the block is there
+                //drive straight and hope the block is there
                 break;
 
 
