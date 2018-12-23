@@ -53,7 +53,7 @@ public class CombinedHardware {
         left_back_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        hangArm = new HangArm("hang_arm","upper_touch","lower_touch", ahwMap);
+        hangArm = new HangArm("hang_arm",/*"upper_touch",*/ ahwMap);
         extenderArm = new ExtenderArm("extend_arm", ahwMap);
         rotateArm = new RotateArm("rotate_arm", ahwMap);
         collector = new Collector("collector", ahwMap);
