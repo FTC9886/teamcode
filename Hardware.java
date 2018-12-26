@@ -47,6 +47,7 @@ public class Hardware
     public DcMotor hang_arm;
     public DcMotor extend_arm;
     public DcMotor rotate_arm;
+    public DcMotor collector;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -79,15 +80,17 @@ public class Hardware
         hang_arm = hwMap.dcMotor.get("hang_arm");
         extend_arm = hwMap.dcMotor.get("extend_arm");
         rotate_arm = hwMap.dcMotor.get("rotate_arm");
+        collector = hwMap.dcMotor.get("collector");
 
         left_front_drive.setDirection(DcMotor.Direction.FORWARD);
         right_front_drive.setDirection(DcMotor.Direction.FORWARD);
-        left_back_drive.setDirection(DcMotor.Direction.FORWARD);
-        right_back_drive.setDirection(DcMotor.Direction.FORWARD);
+        left_back_drive.setDirection(DcMotor.Direction.REVERSE);
+        right_back_drive.setDirection(DcMotor.Direction.REVERSE);
 
         hang_arm.setDirection(DcMotor.Direction.FORWARD);
         extend_arm.setDirection(DcMotor.Direction.FORWARD);
         rotate_arm.setDirection(DcMotor.Direction.FORWARD);
+        collector.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power
         left_front_drive.setPower(0);
@@ -97,6 +100,7 @@ public class Hardware
         hang_arm.setPower(0);
         extend_arm.setPower(0);
         rotate_arm.setPower(0);
+        collector.setPower(0);
 
         // Stop and reset all encoders
         right_front_drive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -136,11 +140,11 @@ public class Hardware
         // Reset the cycle clock for the next pass.
         period.reset();
     }
-    public void driveLeft (LinearOpMode opMode, double inches, double speed, double timeoutS)
-    {
-        driveRight(opMode, -inches, speed, timeoutS);
-    }
     public void driveRight (LinearOpMode opMode, double inches, double speed, double timeoutS)
+    {
+        driveLeft(opMode, -inches, speed, timeoutS);
+    }
+    public void driveLeft (LinearOpMode opMode, double inches, double speed, double timeoutS)
     {
         int newLeftFrontTarget  = left_front_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_LandR);
         int newRightFrontTarget = right_front_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_FandB);

@@ -108,8 +108,8 @@ public class Teleop_Tank_v4 extends OpMode{
         {
             robot.left_front_drive.setPower (gamepad1_left);
             robot.right_front_drive.setPower(gamepad1_right);
-            robot.left_back_drive.setPower  (gamepad1_left);
-            robot.right_back_drive.setPower (gamepad1_right);
+            robot.left_back_drive.setPower  (-gamepad1_left);
+            robot.right_back_drive.setPower (-gamepad1_right);
         }
 
 //        else if (gamepad1.dpad_up)
@@ -128,15 +128,15 @@ public class Teleop_Tank_v4 extends OpMode{
         {
             robot.left_front_drive.setPower (-gamepad1.right_trigger/1.5);
             robot.right_front_drive.setPower(-gamepad1.right_trigger/1.5);
-            robot.left_back_drive.setPower  (gamepad1.right_trigger/1.5);
-            robot.right_back_drive.setPower (gamepad1.right_trigger/1.5);
+            robot.left_back_drive.setPower  (-gamepad1.right_trigger/1.5);
+            robot.right_back_drive.setPower (-gamepad1.right_trigger/1.5);
         }
         else if (gamepad1.left_trigger > 0.1)
         {
             robot.left_front_drive.setPower (gamepad1.left_trigger/1.5);
             robot.right_front_drive.setPower(gamepad1.left_trigger/1.5);
-            robot.left_back_drive.setPower  (-gamepad1.left_trigger/1.5);
-            robot.right_back_drive.setPower (-gamepad1.left_trigger/1.5);
+            robot.left_back_drive.setPower  (gamepad1.left_trigger/1.5);
+            robot.right_back_drive.setPower (gamepad1.left_trigger/1.5);
         }
         else
         {
@@ -174,6 +174,15 @@ public class Teleop_Tank_v4 extends OpMode{
             robot.rotate_arm.setPower(-0.75);
         } else {
             robot.rotate_arm.setPower(0);
+        }
+
+        // to rotate the collection system. "start" turns it on and "back" turns it off.
+        if (gamepad1.start){
+            robot.collector.setPower(0.50);
+        }else if (gamepad1.back){
+            robot.collector.setPower(-0.50);
+        } else {
+            robot.collector.setPower(0);
         }
 
         updateTelemetry(telemetry);
