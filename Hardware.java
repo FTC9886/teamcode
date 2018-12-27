@@ -53,13 +53,13 @@ public class Hardware
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 653 ;    // eg: Rev Hex Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 1106 ;    // eg: Rev Hex Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.1 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 6.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH_LandR   = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+    static final double     COUNTS_PER_INCH_LandR   = (COUNTS_PER_MOTOR_REV * 1.042 * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1416);
-    static final double     COUNTS_PER_INCH_FandB   = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1416) /(2);
+    static final double     COUNTS_PER_INCH_FandB   = (COUNTS_PER_MOTOR_REV * 0.958 * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1416);
 
     /* Constructor */
     public Hardware()
@@ -87,7 +87,7 @@ public class Hardware
         left_back_drive.setDirection(DcMotor.Direction.REVERSE);
         right_back_drive.setDirection(DcMotor.Direction.REVERSE);
 
-        hang_arm.setDirection(DcMotor.Direction.FORWARD);
+        hang_arm.setDirection(DcMotor.Direction.REVERSE);
         extend_arm.setDirection(DcMotor.Direction.FORWARD);
         rotate_arm.setDirection(DcMotor.Direction.FORWARD);
         collector.setDirection(DcMotor.Direction.FORWARD);
@@ -107,13 +107,14 @@ public class Hardware
         left_front_drive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         right_back_drive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         left_back_drive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hang_arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Set motors to run with / without encoders
         left_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         left_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        hang_arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /***

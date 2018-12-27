@@ -32,9 +32,8 @@ public class PixyExample extends LinearOpMode {
         pixy.setI2cAddress(I2cAddr.create7bit(0x54));
 
         //setting Pixy's read window. You'll want these exact parameters, and you can reference the 
-        SDK Documentation to learn more
-        I2cDeviceSynch.ReadWindow readWindow = new I2cDeviceSynch.ReadWindow (1, 26,
-                I2cDeviceSynch.ReadMode.REPEAT);
+        //SDK Documentation to learn more
+        I2cDeviceSynch.ReadWindow readWindow = new I2cDeviceSynch.ReadWindow (1, 26, I2cDeviceSynch.ReadMode.REPEAT);
         pixy.setReadWindow(readWindow);
 
         //required to "turn on" the device

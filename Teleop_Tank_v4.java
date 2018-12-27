@@ -149,9 +149,9 @@ public class Teleop_Tank_v4 extends OpMode{
 
         // to move the lift/hang arm up and down. left bumper is up and right bumper is down.
         if (gamepad1.left_bumper){
-            robot.hang_arm.setPower(0.75);
-        }else if (gamepad1.right_bumper){
             robot.hang_arm.setPower(-0.75);
+        }else if (gamepad1.right_bumper){
+            robot.hang_arm.setPower(0.75);
         } else {
             robot.hang_arm.setPower(0);
         }

@@ -44,7 +44,7 @@ public class AutoHardware {
         left_back_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        hangArm = new HangArm("hang_arm","upper_touch","lower_touch", opMode.hardwareMap);
+        hangArm = new HangArm("hang_arm", opMode.hardwareMap);
         extenderArm = new ExtenderArm("extend_arm", opMode.hardwareMap);
         rotateArm = new RotateArm("rotate_arm", opMode.hardwareMap);
 
