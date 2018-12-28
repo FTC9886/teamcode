@@ -52,10 +52,7 @@ public class TeleOp_v5_Single_Controller extends OpMode {
         }
         else
         {
-            robot.left_front_drive.setPower (0f);
-            robot.right_front_drive.setPower(0f);
-            robot.left_back_drive.setPower  (0f);
-            robot.right_back_drive.setPower (0f);
+            robot.stopDrive();
         }
 
         //D-pad Driving

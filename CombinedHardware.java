@@ -38,10 +38,10 @@ public class CombinedHardware {
     public void init(HardwareMap ahwMap){
         hwMap = ahwMap;
 
-        DcMotor left_front_drive = ahwMap.dcMotor.get("left_front_drive");
-        DcMotor right_front_drive = ahwMap.dcMotor.get("right_front_drive");
-        DcMotor left_back_drive = ahwMap.dcMotor.get("left_back_drive");
-        DcMotor right_back_drive = ahwMap.dcMotor.get("right_back_drive");
+        left_front_drive = ahwMap.dcMotor.get("left_front_drive");
+        right_front_drive = ahwMap.dcMotor.get("right_front_drive");
+        left_back_drive = ahwMap.dcMotor.get("left_back_drive");
+        right_back_drive = ahwMap.dcMotor.get("right_back_drive");
 
         left_front_drive.setDirection(DcMotor.Direction.FORWARD);
         right_front_drive.setDirection(DcMotor.Direction.FORWARD);
@@ -198,10 +198,7 @@ public class CombinedHardware {
         }
 
         // Stop all motion;
-        left_front_drive.setPower(0);
-        right_front_drive.setPower(0);
-        left_back_drive.setPower(0);
-        right_back_drive.setPower(0);
+        stopDrive();
 
         // Turn off RUN_TO_POSITION
         left_front_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
