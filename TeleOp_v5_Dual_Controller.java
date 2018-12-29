@@ -3,20 +3,33 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp(name = "Mec Tank v5 Dual Controller", group = "Mec Tank v5")
 public class TeleOp_v5_Dual_Controller extends OpMode {
     CombinedHardware robot = new CombinedHardware();
 
-
+    private Orientation angles;
 
     @Override
     public void init(){
         robot.init(hardwareMap);
+        robot.left_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.right_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.left_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        angles = robot.adafruitIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YZX, AngleUnit.DEGREES);
 
         updateTelemetry(telemetry);
 
     }
+
 
     @Override
     public void loop(){
@@ -32,49 +45,74 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         {
             robot.left_front_drive.setPower (gamepad1_left);
             robot.right_front_drive.setPower(gamepad1_right);
-            robot.left_back_drive.setPower  (gamepad1_left);
-            robot.right_back_drive.setPower (gamepad1_right);
+            robot.left_back_drive.setPower  (-gamepad1_left);
+            robot.right_back_drive.setPower (-gamepad1_right);
         }
         //Translate left and right
         else if (gamepad1.right_trigger > 0.1)
         {
             robot.left_front_drive.setPower (-gamepad1.right_trigger/1.5);
             robot.right_front_drive.setPower(-gamepad1.right_trigger/1.5);
-            robot.left_back_drive.setPower  (gamepad1.right_trigger/1.5);
-            robot.right_back_drive.setPower (gamepad1.right_trigger/1.5);
+            robot.left_back_drive.setPower  (-gamepad1.right_trigger/1.5);
+            robot.right_back_drive.setPower (-gamepad1.right_trigger/1.5);
         }
         else if (gamepad1.left_trigger > 0.1)
         {
             robot.left_front_drive.setPower (gamepad1.left_trigger/1.5);
             robot.right_front_drive.setPower(gamepad1.left_trigger/1.5);
-            robot.left_back_drive.setPower  (-gamepad1.left_trigger/1.5);
-            robot.right_back_drive.setPower (-gamepad1.left_trigger/1.5);
+            robot.left_back_drive.setPower  (gamepad1.left_trigger/1.5);
+            robot.right_back_drive.setPower (gamepad1.left_trigger/1.5);
+        }
+        //D-pad Driving
+        else if (gamepad1.dpad_up)
+        {
+            robot.left_front_drive.setPower (-0.3);
+            robot.right_front_drive.setPower(0.3);
+            robot.left_back_drive.setPower  (0.3);
+            robot.right_back_drive.setPower (-0.3);
+            //robot.drivePowers(0.25, -0.25);
+        }
+        else if (gamepad1.dpad_down)
+        {
+            robot.left_front_drive.setPower (0.3);
+            robot.right_front_drive.setPower(-0.3);
+            robot.left_back_drive.setPower  (-0.3);
+            robot.right_back_drive.setPower (0.3);
+            //robot.drivePowers(-0.25, 0.25);
+        }
+        else if (gamepad1.dpad_left)
+        {
+            robot.left_front_drive.setPower (0.3);
+            robot.right_front_drive.setPower(0.3);
+            robot.left_back_drive.setPower  (0.3);
+            robot.right_back_drive.setPower (0.3);
+
+            //robot.powerTranslate(0.25);
+        }
+        else if (gamepad1.dpad_right)
+        {
+            robot.left_front_drive.setPower (-0.3);
+            robot.right_front_drive.setPower(-0.3);
+            robot.left_back_drive.setPower  (-0.3);
+            robot.right_back_drive.setPower (-0.3);
+            //robot.powerTranslate(-0.25);
         }
         else
         {
-            robot.left_front_drive.setPower (0f);
-            robot.right_front_drive.setPower(0f);
-            robot.left_back_drive.setPower  (0f);
-            robot.right_back_drive.setPower (0f);
-        }
-
-        //D-pad Driving
-        if (gamepad1.dpad_up){
-            robot.powerTranslate(0.25);
-        }else if (gamepad1.dpad_down){
-            robot.powerTranslate(-0.25);
-        }else if(gamepad1.dpad_left){
-            robot.drivePowers(0.25, 0.25);
-        }else if(gamepad1.dpad_right){
-            robot.drivePowers(-0.25, -0.25);
+            robot.stopDrive();
         }
 
         //Hang lift
-        if(gamepad1.a){
+        if(gamepad1.a)
+        {
             robot.hangArm.lower();
-        }else if(gamepad1.y){
+        }
+        else if(gamepad1.y)
+        {
             robot.hangArm.lift();
-        }else{
+        }
+        else
+        {
             robot.hangArm.stop();
         }
 
@@ -86,32 +124,52 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
 
 
         //Collector arm extend/retract
-        if (gamepad2.b){
+        if (gamepad2.b)
+        {
             robot.extenderArm.extend();
-        }else if(gamepad2.x){
+        }
+        else if (gamepad2.x)
+        {
             robot.extenderArm.retract();
-        } else {
+        }
+        else
+        {
             robot.extenderArm.stop();
         }
 
         //Rotate Collector Arm
-        if (gamepad2.y){
+        if (gamepad2.y)
+        {
             robot.rotateArm.angleUp();
-        }else if(gamepad2.a){
+        }
+        else if(gamepad2.a)
+        {
             robot.rotateArm.angleDown();
-        }else{
+        }
+        else
+        {
             robot.rotateArm.stop();
         }
 
         //Collector
-        if (gamepad2.left_bumper){
+        if (gamepad2.left_bumper)
+        {
             robot.collector.eject();
-        }else if(gamepad2.right_bumper){
+        }
+        else if(gamepad2.right_bumper)
+        {
             robot.collector.collect();
-        }else{
+        }
+        else
+        {
             robot.collector.stop();
         }
 
+        angles = robot.adafruitIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YZX, AngleUnit.DEGREES);
+
+        telemetry.addData("First Angle: ", angles.firstAngle);
+        telemetry.addData("Second Angle: ",angles.secondAngle);
+        telemetry.addData("Third Angle: ", angles.thirdAngle);
         telemetry.update();
     }
 

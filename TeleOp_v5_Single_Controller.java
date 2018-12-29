@@ -4,6 +4,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 @TeleOp(name = "Mec Tank v5 Single Controller", group = "Mec Tank v5")
 public class TeleOp_v5_Single_Controller extends OpMode {
     CombinedHardware robot = new CombinedHardware();
@@ -32,76 +37,122 @@ public class TeleOp_v5_Single_Controller extends OpMode {
         {
             robot.left_front_drive.setPower (gamepad1_left);
             robot.right_front_drive.setPower(gamepad1_right);
-            robot.left_back_drive.setPower  (gamepad1_left);
-            robot.right_back_drive.setPower (gamepad1_right);
+            robot.left_back_drive.setPower  (-gamepad1_left);
+            robot.right_back_drive.setPower (-gamepad1_right);
         }
         //Translate left and right
         else if (gamepad1.right_trigger > 0.1)
         {
             robot.left_front_drive.setPower (-gamepad1.right_trigger/1.5);
             robot.right_front_drive.setPower(-gamepad1.right_trigger/1.5);
-            robot.left_back_drive.setPower  (gamepad1.right_trigger/1.5);
-            robot.right_back_drive.setPower (gamepad1.right_trigger/1.5);
+            robot.left_back_drive.setPower  (-gamepad1.right_trigger/1.5);
+            robot.right_back_drive.setPower (-gamepad1.right_trigger/1.5);
         }
         else if (gamepad1.left_trigger > 0.1)
         {
             robot.left_front_drive.setPower (gamepad1.left_trigger/1.5);
             robot.right_front_drive.setPower(gamepad1.left_trigger/1.5);
-            robot.left_back_drive.setPower  (-gamepad1.left_trigger/1.5);
-            robot.right_back_drive.setPower (-gamepad1.left_trigger/1.5);
+            robot.left_back_drive.setPower  (gamepad1.left_trigger/1.5);
+            robot.right_back_drive.setPower (gamepad1.left_trigger/1.5);
+        }
+        //D-pad Driving
+        else if (gamepad1.dpad_up)
+        {
+            robot.left_front_drive.setPower (-0.3);
+            robot.right_front_drive.setPower(0.3);
+            robot.left_back_drive.setPower  (0.3);
+            robot.right_back_drive.setPower (-0.3);
+            //robot.drivePowers(0.25, -0.25);
+        }
+        else if (gamepad1.dpad_down)
+        {
+            robot.left_front_drive.setPower (0.3);
+            robot.right_front_drive.setPower(-0.3);
+            robot.left_back_drive.setPower  (-0.3);
+            robot.right_back_drive.setPower (0.3);
+            //robot.drivePowers(-0.25, 0.25);
+        }
+        else if (gamepad1.dpad_left)
+        {
+            robot.left_front_drive.setPower (0.3);
+            robot.right_front_drive.setPower(0.3);
+            robot.left_back_drive.setPower  (0.3);
+            robot.right_back_drive.setPower (0.3);
+
+            //robot.powerTranslate(0.25);
+        }
+        else if (gamepad1.dpad_right)
+        {
+            robot.left_front_drive.setPower (-0.3);
+            robot.right_front_drive.setPower(-0.3);
+            robot.left_back_drive.setPower  (-0.3);
+            robot.right_back_drive.setPower (-0.3);
+            //robot.powerTranslate(-0.25);
         }
         else
         {
             robot.stopDrive();
         }
 
-        //D-pad Driving
-        if (gamepad1.dpad_up){
-            robot.powerTranslate(0.25);
-        }else if (gamepad1.dpad_down){
-            robot.powerTranslate(-0.25);
-        }else if(gamepad1.dpad_left){
-            robot.drivePowers(0.25, 0.25);
-        }else if(gamepad1.dpad_right){
-            robot.drivePowers(-0.25, -0.25);
-        }
-
         //Hang lift
-        if(gamepad1.back){
+        if (gamepad1.back)
+        {
             robot.hangArm.lower();
-        }else if(gamepad1.start){
+        }
+        else if (gamepad1.start)
+        {
             robot.hangArm.lift();
-        }else{
+        }
+        else
+        {
             robot.hangArm.stop();
         }
 
         //Collector arm extend/retract
-        if (gamepad1.b){
+        if (gamepad1.b)
+        {
             robot.extenderArm.extend();
-        }else if(gamepad1.x){
+        }
+        else if (gamepad1.x)
+        {
             robot.extenderArm.retract();
-        } else {
+        }
+        else
+        {
             robot.extenderArm.stop();
         }
 
         //Rotate Collector Arm
-        if (gamepad1.y){
+        if (gamepad1.y)
+        {
             robot.rotateArm.angleUp();
-        }else if(gamepad1.a){
+        }
+        else if (gamepad1.a)
+        {
             robot.rotateArm.angleDown();
-        }else{
+        }
+        else
+        {
             robot.rotateArm.stop();
         }
 
         //Collector
-        if (gamepad1.left_bumper){
+        if (gamepad1.left_bumper)
+        {
             robot.collector.eject();
-        }else if(gamepad1.right_bumper){
+        }
+        else if (gamepad1.right_bumper)
+        {
             robot.collector.collect();
-        }else{
+        }
+        else
+        {
             robot.collector.stop();
         }
 
+//        telemetry.addData("First Angle: ", robot.gyroAutoDriver.angles.firstAngle);
+//        telemetry.addData("Second Angle: ", robot.gyroAutoDriver.angles.secondAngle);
+//        telemetry.addData("Third Angle: ", robot.gyroAutoDriver.angles.thirdAngle);
         telemetry.update();
 
     }

@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class HangArm {
     private DcMotor linearDrive;
-    private DigitalChannel upperButton;
+    private int MaxEncoderValue = -12034;
+    private int CurrentEncoderValue = 0;
 
 
     private enum HangArmEnum {
@@ -17,38 +18,37 @@ public class HangArm {
 
     private HangArmEnum hangArmState;
 
-    public HangArm(String linearDrive, /*String upperTouchSensor,*/  HardwareMap hardwareMap) {
-        this.linearDrive = hardwareMap.dcMotor.get(linearDrive);
-        /*upperButton = hardwareMap.get(DigitalChannel.class, upperTouchSensor);
-        upperButton.setMode(DigitalChannel.Mode.INPUT);*/
-
-
-
-        stop();
+    public HangArm(String linearDriveName,  HardwareMap hardwareMap) {
+        this.linearDrive = hardwareMap.dcMotor.get(linearDriveName);
+        linearDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       // linearDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+         stop();
     }
 
     public boolean isFullyLowered() {
-        return !upperButton.getState();
+        int currentPosition = linearDrive.getCurrentPosition();
+        boolean isDown = currentPosition < MaxEncoderValue + 20;
+        return isDown;
     }
+
 
 
 
 
     public void lift() {
-        linearDrive.setPower(-0.75);
+        linearDrive.setPower(0.75);
         hangArmState = HangArmEnum.RAISING;
     }
 
     public void lower() {
-        /*if (isFullyLowered()) {
+        if (isFullyLowered()) {
             stop();
         } else {
-            linearDrive.setPower(0.75);
+            //linearDrive.setTargetPosition(MaxEncoderValue);
+            linearDrive.setPower(-0.75);
             hangArmState = HangArmEnum.LOWERING;
-        }*/
-
-        linearDrive.setPower(0.75);
-        hangArmState = HangArmEnum.LOWERING;
+        }
     }
 
     public void stop() {
@@ -63,7 +63,7 @@ public class HangArm {
                 return "Raising";
 
             case LOWERING:
-                return "Lowering";
+                return "Lowering " + linearDrive.getCurrentPosition();
 
             case STOPPED:
                 String telemetry;

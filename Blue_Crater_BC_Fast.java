@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.vuforia.CameraDevice;
 
 @Autonomous(name="Blue_Crater_BC_Fast", group="Autonomous")
 //@Disabled
@@ -21,83 +22,149 @@ public class Blue_Crater_BC_Fast extends LinearOpMode {
         robot.init(hardwareMap);
         Michaels_tensor_flow tensor_flow = new Michaels_tensor_flow();
         tensor_flow.init(this);
+        CameraDevice.getInstance().setFlashTorchMode(true);
+        double defaultSpeed = 0.4;
+
         waitForStart();
         //change to use a more robust function later
-        robot.hangArm.lower();
+        while(!robot.hangArm.isFullyLowered()) {
+            robot.hangArm.lower();
+        }
         robot.pause(1000);
         robot.hangArm.stop();
 
 
         //Move robot away from lander latch
-
-        robot.driveRight(this, 3, 0.25, 3);
+        robot.translateBackward(this, 4, 0.3, 3);
+        robot.pause(500);
+       // robot.driveRight(this, 3, 0.25, 3);
 
         //Drive right to clear lander
 
         tensor_flow.activate();
         //FIND GOLD
-        Michaels_tensor_flow.goldfinder goldPosition = tensor_flow.getGoldPosition(telemetry);
+        Michaels_tensor_flow.goldfinder goldPosition = Michaels_tensor_flow.goldfinder.UNKNOWN;
+        while(goldPosition == Michaels_tensor_flow.goldfinder.UNKNOWN) {
+            goldPosition = tensor_flow.getGoldPosition(telemetry);
+        }
+        telemetry.addData("Position", goldPosition);
+        telemetry.update();
+        robot.pause(1000);
+        tensor_flow.deactivate();
+
 
         //Robot chooses which path to take, Left, Right, Middle, or Unknown
 
         switch (goldPosition) {
             case LEFT:
+                    robot.driveRight(this, 14, defaultSpeed, 3);
+                    robot.pause(250);
                 //drive 2" from minerals
-                robot.translateForward(this, 30, 0.50, 5);
+                    robot.translateForward(this, 21, defaultSpeed, 5);
+                    robot.pause(250);
                 //drive to left block
-                robot.driveLeft(this, 14, 0.50, 5);
+                    robot.driveRight(this, 10, defaultSpeed, 5);
+                    robot.pause(250);
                 //push left block
-                robot.translateForward(this, 4, 0.50, 3);
+                    robot.translateForward(this, 3, defaultSpeed, 3);
+                    robot.pause(250);
+                //Pull back from block
+                    robot.driveLeft(this, 8, defaultSpeed, 3);
                 //turn robot to the left to face the wall
-                    // robot.turnLeft(90 *);
+                    robot.gyroAutoDriver.turn(125, 0.25, 5);
+                    robot.pause(250);
                 //drive toward the wall
-                robot.translateForward(this, 33.9, 0.30, 5);
-                //turn to be parallel with wall
-                    //robot.turnLeft(45 *);
+                    robot.translateBackward(this, 26, defaultSpeed, 5);
+                    robot.pause(250);
+                //drive away from the wall
+                    robot.translateForward(this, 5, 0.5, 5);
+                    robot.pause(100);
                 //drive to depot
-                robot.driveLeft(this, 60, 0.50, 10);
+                    robot.gyroAutoDriver.driveForwards(110, 0.5);
+                    robot.pause(250);
                 //deposit marker
-                    //robot.markerServo.setPosition(x);
+                    robot.markerDeploy.deploy();
+                    robot.pause(250);
+                //Release marker
+                    robot.driveRight(this, 1, 0.2, 3);
+                    robot.pause(250);
+                //retract marker servo
+                    robot.markerDeploy.retract();
+                    robot.pause(250);
                 //drive to crater
-                robot.driveRight(this, 74, 0.75, 10);
+                    robot.gyroAutoDriver.driveBackwards(120, 0.5);
                 break;
 
             case RIGHT:
+                    robot.driveRight(this, 14, defaultSpeed, 3);
+                    robot.pause(250);
                 //drive 2" from minerals
-                robot.driveRight(this, 30, 0.50, 5);
+                    robot.translateBackward(this, 13.5, 0.2, 5);
+                    robot.pause(250);
                 //drive to right block
-                robot.translateBackward(this, 11, 0.50, 5);
-                //push right block
-                robot.driveRight(this, 4, 0.50, 3);
+                    robot.driveRight(this, 6, defaultSpeed, 5);
+                    robot.pause(250);
                 //back up
-                robot.driveLeft(this, 6, 0.50, 3);
-                //turn robot left to face the wall
-                    //robot.turnLeft(90 *);
+                    robot.driveLeft(this, 5, defaultSpeed, 3);
+
                 //drive toward the wall
-                robot.translateForward(this, 100, 0.75, 10);
+                    robot.translateForward(this, 60, defaultSpeed, 10);
                 //turn to be parallel with the wall
-                    //robot.turnLeft(45 *);
+                    robot.gyroAutoDriver.turn(118, 0.25, 5);
+                    robot.pause(250);
+                //drive toward the wall
+                    robot.translateBackward(this, 16, defaultSpeed, 5);
+                    robot.pause(250);
+                //drive away from the wall
+                    robot.translateForward(this, 5, 0.5, 5);
+                    robot.pause(100);
                 //drive to depot
-                robot.driveLeft(this, 36, 0.50, 5);
+                    robot.gyroAutoDriver.driveForwards(75, 0.5);
+                    robot.pause(500);
+                //deposit marker
+                    robot.markerDeploy.deploy();
+                    robot.pause(250);
+                //Release marker
+                    robot.driveRight(this, 1, 0.2, 3);
+                    robot.pause(250);
+                //retract marker servo
+                    robot.markerDeploy.retract();
+                    robot.pause(250);
                 //drive to crater
-                robot.driveRight(this, 74, 0.75, 10);
+                    //robot.driveLeft(this, 64, 0.5, 10);
+                    robot.gyroAutoDriver.driveBackwards(125, 0.5);
                 break;
 
             case MIDDLE:
                 //Drive to and push middle block
-                robot.driveRight(this, 34, 0.50, 10);
+                robot.driveRight(this, 24, defaultSpeed, 10);
                 //back up
-                robot.driveLeft(this, 6, 0.50, 3);
-                //turn robot left to face the wall
-                    //robot.turnLeft(90 *);
+                robot.driveLeft(this, 6, defaultSpeed, 3);
                 //drive toward the wall
-                robot.translateForward(this, 67, 0.75, 10);
+                robot.translateForward(this, 30, defaultSpeed, 10);
                 //turn to be parallel with the wall
-                    //robot.turnRight(45 *);
+                robot.gyroAutoDriver.turn(115, defaultSpeed, 5);
+                robot.pause(250);
+                //drive toward the wall
+                robot.translateBackward(this, 20, defaultSpeed, 5);
+                robot.pause(250);
+                //drive away from the wall
+                robot.translateForward(this, 1, defaultSpeed, 5);
                 //drive to depot
-                robot.driveLeft(this, 36, 0.50, 5);
+                robot.gyroAutoDriver.driveForwards(90, 0.5);
+                robot.pause(500);
+                //deposit marker
+                robot.markerDeploy.deploy();
+                robot.pause(250);
+                //Release marker
+                robot.driveRight(this, 1, 0.2, 3);
+                robot.pause(250);
+                //retract marker servo
+                robot.markerDeploy.retract();
+                robot.pause(250);
                 //drive to crater
-                robot.driveRight(this, 74, 0.75, 10);
+                //robot.driveLeft(this, 64, 0.5, 10);
+                robot.gyroAutoDriver.driveBackwards(125, 0.5);
                 break;
 
             case UNKNOWN:
@@ -108,50 +175,50 @@ public class Blue_Crater_BC_Fast extends LinearOpMode {
 
         }
 
-        tensor_flow.deactivate();
 
-        telemetry.addData("Path0", "Starting at %7d : %7d : %7d : %7d",
-                robot.left_front_drive.getCurrentPosition(),
-                robot.right_front_drive.getCurrentPosition(),
-                robot.left_back_drive.getCurrentPosition(),
-                robot.right_back_drive.getCurrentPosition());
-        telemetry.update();
 
-        robot.driveRight(this, 36, 0.25, 5);
-        telemetry.addData("Path0", "Starting at %7d : %7d : %7d : %7d",
-                robot.left_front_drive.getCurrentPosition(),
-                robot.right_front_drive.getCurrentPosition(),
-                robot.left_back_drive.getCurrentPosition(),
-                robot.right_back_drive.getCurrentPosition());
-        telemetry.update();
-        robot.pause(15000);
-
-        robot.driveLeft(this, 36, 0.25, 5);
-        telemetry.addData("Path0", "Starting at %7d : %7d : %7d : %7d",
-                robot.left_front_drive.getCurrentPosition(),
-                robot.right_front_drive.getCurrentPosition(),
-                robot.left_back_drive.getCurrentPosition(),
-                robot.right_back_drive.getCurrentPosition());
-        telemetry.update();
-        robot.pause(15000);
-
-        robot.translateForward(this, 36, 0.25, 5);
-        telemetry.addData("Path0", "Starting at %7d : %7d : %7d : %7d",
-                robot.left_front_drive.getCurrentPosition(),
-                robot.right_front_drive.getCurrentPosition(),
-                robot.left_back_drive.getCurrentPosition(),
-                robot.right_back_drive.getCurrentPosition());
-        telemetry.update();
-        robot.pause(15000);
-
-        robot.translateBackward(this, 36, 0.25, 5);
-        telemetry.addData("Path0", "Starting at %7d : %7d : %7d : %7d",
-                robot.left_front_drive.getCurrentPosition(),
-                robot.right_front_drive.getCurrentPosition(),
-                robot.left_back_drive.getCurrentPosition(),
-                robot.right_back_drive.getCurrentPosition());
-        telemetry.update();
-        robot.pause(15000);
+//        telemetry.addData("Path0", "Starting at %7d : %7d : %7d : %7d",
+//                robot.left_front_drive.getCurrentPosition(),
+//                robot.right_front_drive.getCurrentPosition(),
+//                robot.left_back_drive.getCurrentPosition(),
+//                robot.right_back_drive.getCurrentPosition());
+//        telemetry.update();
+//
+//        //robot.driveRight(this, 26, 0.25, 5);
+//        telemetry.addData("Path0", "Starting at %7d : %7d : %7d : %7d",
+//                robot.left_front_drive.getCurrentPosition(),
+//                robot.right_front_drive.getCurrentPosition(),
+//                robot.left_back_drive.getCurrentPosition(),
+//                robot.right_back_drive.getCurrentPosition());
+//        telemetry.update();
+//        robot.pause(15000);
+//
+//        robot.driveLeft(this, 16, 0.25, 5);
+//        telemetry.addData("Path0", "Starting at %7d : %7d : %7d : %7d",
+//                robot.left_front_drive.getCurrentPosition(),
+//                robot.right_front_drive.getCurrentPosition(),
+//                robot.left_back_drive.getCurrentPosition(),
+//                robot.right_back_drive.getCurrentPosition());
+//        telemetry.update();
+//        robot.pause(15000);
+//
+//        robot.translateForward(this, 36, 0.25, 5);
+//        telemetry.addData("Path0", "Starting at %7d : %7d : %7d : %7d",
+//                robot.left_front_drive.getCurrentPosition(),
+//                robot.right_front_drive.getCurrentPosition(),
+//                robot.left_back_drive.getCurrentPosition(),
+//                robot.right_back_drive.getCurrentPosition());
+//        telemetry.update();
+//        robot.pause(15000);
+//
+//        robot.translateBackward(this, 36, 0.25, 5);
+//        telemetry.addData("Path0", "Starting at %7d : %7d : %7d : %7d",
+//                robot.left_front_drive.getCurrentPosition(),
+//                robot.right_front_drive.getCurrentPosition(),
+//                robot.left_back_drive.getCurrentPosition(),
+//                robot.right_back_drive.getCurrentPosition());
+//        telemetry.update();
+//        robot.pause(15000);
 
         //robot.translateForward(this, 10, 0.5, 5);
 

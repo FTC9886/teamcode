@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -20,6 +21,9 @@ public class CombinedHardware {
     public ExtenderArm extenderArm;
     public RotateArm rotateArm;
     public Collector collector;
+    public MarkerDeploy markerDeploy;
+
+    public GyroAutoDriver gyroAutoDriver;
 
     //Define Servos
 
@@ -45,8 +49,8 @@ public class CombinedHardware {
 
         left_front_drive.setDirection(DcMotor.Direction.FORWARD);
         right_front_drive.setDirection(DcMotor.Direction.FORWARD);
-        left_back_drive.setDirection(DcMotor.Direction.FORWARD);
-        right_back_drive.setDirection(DcMotor.Direction.FORWARD);
+        left_back_drive.setDirection(DcMotor.Direction.REVERSE);
+        right_back_drive.setDirection(DcMotor.Direction.REVERSE);
 
         left_front_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         right_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -57,6 +61,7 @@ public class CombinedHardware {
         extenderArm = new ExtenderArm("extend_arm", ahwMap);
         rotateArm = new RotateArm("rotate_arm", ahwMap);
         collector = new Collector("collector", ahwMap);
+        markerDeploy = new MarkerDeploy("marker_servo", ahwMap);
 
         //Sensor Setup
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -68,18 +73,32 @@ public class CombinedHardware {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         adafruitIMU = ahwMap.get(BNO055IMU.class, "imu 1");
         adafruitIMU.initialize(parameters);
+
+
+        gyroAutoDriver = new GyroAutoDriver(this);
     }
 
+    public void resetEncoders(){
+        left_front_drive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        left_back_drive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right_front_drive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right_back_drive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        left_front_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        left_back_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
     private ElapsedTime period  = new ElapsedTime();
 
     /*Value definitions to be used for distance conversion*/
-    static final double     COUNTS_PER_MOTOR_REV    = 653 ;    // eg: Rev Hex Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 1106 ;    // eg: Rev Hex Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.1 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 6.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH_LandR   = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+    static final double     COUNTS_PER_INCH_LandR   = (COUNTS_PER_MOTOR_REV * 1.042 * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1416);
-    static final double     COUNTS_PER_INCH_FandB   = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1416) /(2);
+    static final double     COUNTS_PER_INCH_FandB   = (COUNTS_PER_MOTOR_REV * 0.958 * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1416);
 
     //Used to power the right side of the drive for the Gyro Auto Driver
     public void rightDrivePower(double power){
@@ -96,7 +115,6 @@ public class CombinedHardware {
         leftDrivePower(leftSpeed);
         rightDrivePower(rightSpeed);
     }
-
     //Set Translate Powers
     public void powerTranslate(double power){
         left_front_drive.setPower(power);
@@ -113,11 +131,11 @@ public class CombinedHardware {
 
 
     /*Functions used in current autonomous programs*/
-    public void driveLeft (LinearOpMode opMode, double inches, double speed, double timeoutS)
-    {
-        driveRight(opMode, -inches, speed, timeoutS);
-    }
     public void driveRight (LinearOpMode opMode, double inches, double speed, double timeoutS)
+    {
+        driveLeft(opMode, -inches, speed, timeoutS);
+    }
+    public void driveLeft (LinearOpMode opMode, double inches, double speed, double timeoutS)
     {
         int newLeftFrontTarget  = left_front_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_LandR);
         int newRightFrontTarget = right_front_drive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_FandB);
@@ -207,11 +225,11 @@ public class CombinedHardware {
         right_back_drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void turnLeft(LinearOpMode opMode, double inches, double speed, double timeoutS){
 
+
+    protected long inchesToEncoderCounts(double distance){
+        return Math.round(((distance / (Math.PI * WHEEL_DIAMETER_INCHES)) / DRIVE_GEAR_REDUCTION) * COUNTS_PER_MOTOR_REV);
     }
-
-    public void turnRight(){}
 
     //Sleep while catching InteruptedException
     public void pause(long millis )

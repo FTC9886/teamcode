@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -10,18 +12,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class GyroAutoDriver {
-    AutoHardware hw;
+    CombinedHardware hw;
 
-public GyroAutoDriver(AutoHardware hw){
+public GyroAutoDriver(CombinedHardware hw){
     this.hw = hw;
     angles = hw.adafruitIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YZX, AngleUnit.DEGREES);
 }
 
-public Orientation angles;
+private Orientation angles;
 
 
 
-private double Heading(){
+public double Heading(){
+    angles = hw.adafruitIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YZX, AngleUnit.DEGREES);
+
     if(angles.secondAngle == 180)
     {
         angles.secondAngle -= 360;
@@ -29,38 +33,31 @@ private double Heading(){
     return angles.secondAngle;
     }
 
-public void driveForwards(float distance, double power){
-    double target = angles.firstAngle;
+public void driveBackwards(float distance, double power){
+    double target = Heading();
+    hw.resetEncoders();
+    hw.pause(100);
+//    hw.rightDrivePower(power);
+//    hw.leftDrivePower(power);
 
-    hw.rightDrivePower(power);
-    hw.leftDrivePower(power);
-
-    int checkCount = 0;
-
-    while(hw.left_front_drive.getCurrentPosition() < hw.inchesToEncoderCounts(distance) && hw.left_back_drive.getCurrentPosition() < hw.inchesToEncoderCounts(distance) && hw.opMode.opModeIsActive())
+    while(hw.left_front_drive.getCurrentPosition() < (hw.COUNTS_PER_INCH_LandR * (distance/2)) && hw.left_back_drive.getCurrentPosition() < (hw.COUNTS_PER_INCH_LandR * (distance/2)) /*&& hw.opMode.opModeIsActive()*/)
     {
-        checkCount++;
-        float currentHeading = angles.firstAngle;
+        double currentHeading = Heading();
         hw.drivePowers(power + (currentHeading - target) / 50,
                 power - (currentHeading - target) / 50);
-
-        hw.opMode.telemetry.addData("Times checked:", checkCount);
-        hw.opMode.telemetry.addData("Gyro Target:", target);
-        hw.opMode.telemetry.addData("Gyro Heading:", currentHeading);
-        hw.opMode.telemetry.addData("Right Encoder", hw.left_front_drive.getCurrentPosition());
-        hw.opMode.telemetry.addData("Left Encoder", hw.left_back_drive.getCurrentPosition());
-        hw.opMode.telemetry.update();
     }
     hw.stopDrive();
 
 }
 
-public void driveBackwards(float distance, double power){
-    double target = angles.firstAngle;
+public void driveForwards(float distance, double power){
+    double target = Heading();
+    hw.resetEncoders();
+    hw.pause(100);
 
-    while(hw.left_front_drive.getCurrentPosition() > -hw.inchesToEncoderCounts(distance) && hw.left_back_drive.getCurrentPosition() > -hw.inchesToEncoderCounts(distance) && hw.opMode.opModeIsActive())
+    while(hw.left_front_drive.getCurrentPosition() > -(hw.COUNTS_PER_INCH_LandR * (distance/2)) && hw.left_back_drive.getCurrentPosition() > -(hw.COUNTS_PER_INCH_LandR * (distance/2)) /*&& hw.opMode.opModeIsActive()*/)
     {
-        float currentHeading = angles.firstAngle;  //Current direction
+        double currentHeading = Heading();  //Current direction
 
         hw.drivePowers(-power + (currentHeading - target) / 50,
                 -power - (currentHeading - target) / 50);
@@ -70,37 +67,70 @@ public void driveBackwards(float distance, double power){
     hw.stopDrive();
 }
 
-    public void turn(int target, double power)
+//    public void turn(int target, double power)
+//    {
+//        double initialValue = angles.firstAngle;  //Starting direction
+//
+//        double gyroTarget = initialValue + 90;
+//
+//
+//
+//
+//        if(gyroTarget > 180)
+//        {
+//            gyroTarget -= 360;
+//        }
+//        else if(gyroTarget < -180)
+//        {
+//            gyroTarget += 360;
+//        }
+//
+//        boolean shouldBeRunning = true;
+//
+//        while(shouldBeRunning)
+//        {
+//            float currentHeading = angles.firstAngle;  //Current direction
+//
+//            hw.drivePowers(-power + (currentHeading - gyroTarget) / 50,
+//
+//                    -power - (currentHeading - gyroTarget) / 50);
+//        }
+//
+//        hw.stopDrive();
+//
+//    }
+//
+    public void turn(float anglechange, double speed, double timeoutS)
     {
-        double initialValue = angles.firstAngle;  //Starting direction
+        angles = hw.adafruitIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YZX, AngleUnit.DEGREES);
+        double targetangle;
+        double heading = Heading();
 
-        double gyroTarget = initialValue + 90;
+        targetangle = heading + anglechange;
+        if (targetangle > 180) targetangle = targetangle -360;
+        if (targetangle < -180) targetangle = targetangle +360;
 
+        ElapsedTime runtime = new ElapsedTime();
+        runtime.reset();
 
-
-
-        if(gyroTarget > 180)
+        if (anglechange < 0)
         {
-            gyroTarget -= 360;
+            hw.drivePowers(speed, -speed);
+
         }
-        else if(gyroTarget < -180)
+        else
         {
-            gyroTarget += 360;
-        }
-
-        boolean shouldBeRunning = true;
-
-        while(shouldBeRunning)
-        {
-            float currentHeading = angles.firstAngle;  //Current direction
-
-            hw.drivePowers(-power + (currentHeading - gyroTarget) / 50,
-
-                    -power - (currentHeading - gyroTarget) / 50);
+            hw.drivePowers(-speed,speed);
         }
 
+        while ((runtime.seconds() < timeoutS) &&
+                (Math.abs(heading - targetangle) > 5))
+        {
+            heading = Heading();
+        }
+
+        // Stop all motion;
         hw.stopDrive();
-
+        hw.pause(250);
     }
-
 }
