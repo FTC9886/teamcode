@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class HangArm {
     private DcMotor linearDrive;
-    private int MaxEncoderValue = -12034;
+    private int MaxEncoderValue = -12634;
     private int CurrentEncoderValue = 0;
 
 

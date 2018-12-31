@@ -2,13 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.vuforia.CameraDevice;
 
-@Autonomous(name="Blue_Crater_BC_Fast", group="Autonomous")
+@Autonomous(name="Depot", group="Autonomous")
 //@Disabled
 
-public class Blue_Crater_BC_Fast extends LinearOpMode {
+public class Depot extends LinearOpMode {
     public void runOpMode() {
 
 
@@ -60,22 +59,20 @@ public class Blue_Crater_BC_Fast extends LinearOpMode {
                 //drive to left block
                     robot.driveRight(this, 10, defaultSpeed, 5);
                     robot.pause(250);
-                //push left block
-                    robot.translateForward(this, 3, defaultSpeed, 3);
-                    robot.pause(250);
                 //Pull back from block
                     robot.driveLeft(this, 8, defaultSpeed, 3);
+                    robot.pause(250);
                 //turn robot to the left to face the wall
-                    robot.gyroAutoDriver.turn(125, 0.25, 5);
+                    robot.gyroAutoDriver.turn(-30, 0.2, 5);
                     robot.pause(250);
                 //drive toward the wall
-                    robot.translateBackward(this, 26, defaultSpeed, 5);
+                    robot.translateForward(this, 26, defaultSpeed, 5);
                     robot.pause(250);
                 //drive away from the wall
-                    robot.translateForward(this, 5, 0.5, 5);
+                    robot.translateBackward(this, 5, 0.3, 5);
                     robot.pause(100);
                 //drive to depot
-                    robot.gyroAutoDriver.driveForwards(110, 0.5);
+                    robot.gyroAutoDriver.driveForwards(40, 0.5);
                     robot.pause(250);
                 //deposit marker
                     robot.markerDeploy.deploy();
@@ -106,50 +103,14 @@ public class Blue_Crater_BC_Fast extends LinearOpMode {
                     robot.translateForward(this, 60, defaultSpeed, 10);
                     robot.pause(250);
                 //turn to be parallel with the wall
-                    robot.gyroAutoDriver.turn(118, 0.25, 5);
+                    robot.gyroAutoDriver.turn(-30, 0.20, 5);
                     robot.pause(250);
                 //drive toward the wall
-                    robot.translateBackward(this, 16, defaultSpeed, 5);
+                    robot.translateForward(this, 26, defaultSpeed, 5);
                     robot.pause(250);
                 //drive away from the wall
-                    robot.translateForward(this, 5, 0.5, 5);
+                    robot.translateBackward(this, 5, 0.5, 5);
                     robot.pause(100);
-                //drive to depot
-                    robot.gyroAutoDriver.driveForwards(75, 0.5);
-                    robot.pause(500);
-                //deposit marker
-                    robot.markerDeploy.deploy();
-                    robot.pause(250);
-                //Release marker
-                    robot.driveRight(this, 1, 0.2, 3);
-                    robot.pause(250);
-                //retract marker servo
-                    robot.markerDeploy.retract();
-                    robot.pause(250);
-                //drive to crater
-                    //robot.driveLeft(this, 64, 0.5, 10);
-                    robot.gyroAutoDriver.driveBackwards(125, 0.5);
-                break;
-
-            case MIDDLE:
-                //Drive to and push middle block
-                    robot.driveRight(this, 24, defaultSpeed, 10);
-                    robot.pause(250);
-                //back up
-                    robot.driveLeft(this, 6, defaultSpeed, 3);
-                    robot.pause(250);
-                //drive toward the wall
-                    robot.translateForward(this, 30, defaultSpeed, 10);
-                    robot.pause(250);
-                //turn to be parallel with the wall
-                    robot.gyroAutoDriver.turn(115, defaultSpeed, 5);
-                    robot.pause(250);
-                //drive toward the wall
-                    robot.translateBackward(this, 20, defaultSpeed, 5);
-                    robot.pause(250);
-                //drive away from the wall
-                    robot.translateForward(this, 1, defaultSpeed, 5);
-                    robot.pause(250);
                 //drive to depot
                     robot.gyroAutoDriver.driveForwards(90, 0.5);
                     robot.pause(500);
@@ -163,7 +124,35 @@ public class Blue_Crater_BC_Fast extends LinearOpMode {
                     robot.markerDeploy.retract();
                     robot.pause(250);
                 //drive to crater
-                //robot.driveLeft(this, 64, 0.5, 10);
+                    robot.gyroAutoDriver.driveBackwards(140, 0.5);
+                break;
+
+            case MIDDLE:
+                //Drive to and push middle block to the depot
+                    robot.driveRight(this, 55, defaultSpeed, 10);
+                    robot.pause(250);
+                //deposit marker
+                    robot.markerDeploy.deploy();
+                    robot.pause(250);
+                //Release marker
+                    robot.driveRight(this, 1, 0.2, 3);
+                    robot.pause(250);
+                //retract marker servo
+                    robot.markerDeploy.retract();
+                    robot.pause(250);
+                //back off of the block to avoid hitting it when turning.
+                    robot.driveLeft(this, 5, 0.2, 3);
+                    robot.pause(250);
+                //turn to be parallel with wall
+                    robot.gyroAutoDriver.turn(-30, defaultSpeed, 5);
+                    robot.pause(250);
+                //drive toward the wall
+                    robot.translateForward(this, 20, defaultSpeed, 5);
+                    robot.pause(250);
+                //drive away from the wall
+                    robot.translateBackward(this, 5, defaultSpeed, 5);
+                    robot.pause(250);
+                //drive to crater
                     robot.gyroAutoDriver.driveBackwards(125, 0.5);
                 break;
 
