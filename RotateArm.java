@@ -16,7 +16,7 @@ public class RotateArm {
 
     public RotateArm(String rotateMotor, HardwareMap hardwareMap){
         this.rotateMotor = hardwareMap.dcMotor.get(rotateMotor);
-
+        this.rotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         stop();
     }
 

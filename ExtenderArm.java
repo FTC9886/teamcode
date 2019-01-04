@@ -16,7 +16,7 @@ public class ExtenderArm {
 
     public ExtenderArm(String extendMotor, HardwareMap hardwareMap){
         this.extensionMotor = hardwareMap.dcMotor.get(extendMotor);
-
+        extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         stop();
     }
 
