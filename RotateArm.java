@@ -21,7 +21,7 @@ public class RotateArm {
         stop();
     }
 
-    public void changeAngle(Double power){
+    public void changeAngle(Float power){
         rotateMotor.setPower(power);
         rotateArmState = RotateArm.RotateArmEnum.ROTATING;
     }
