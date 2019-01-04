@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.vuforia.CameraDevice;
 
-@Autonomous(name="Crater", group="Autonomous")
+@Autonomous(name="CraterAuto", group="Autonomous")
 //@Disabled
 
 public class CraterAuto extends LinearOpMode {
