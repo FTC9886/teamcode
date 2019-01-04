@@ -4,10 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.vuforia.CameraDevice;
 
-@Autonomous(name="Depot", group="Autonomous")
+@Autonomous(name="DepotAuto", group="Autonomous")
 //@Disabled
 
-public class Depot extends LinearOpMode {
+public class DepotAuto extends LinearOpMode {
     public void runOpMode() {
 
 
