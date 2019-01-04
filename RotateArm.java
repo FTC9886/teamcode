@@ -27,12 +27,12 @@ public class RotateArm {
     }
 
     public void angleUp(){
-        rotateMotor.setPower(0.5);
+        rotateMotor.setPower(0.2);
         rotateArmState = RotateArm.RotateArmEnum.ROTATING_UP;
     }
 
     public void angleDown(){
-        rotateMotor.setPower(-0.5);
+        rotateMotor.setPower(-0.2);
         rotateArmState = RotateArm.RotateArmEnum.ROTATING_DOWN;
     }
 
