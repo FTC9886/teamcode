@@ -23,12 +23,12 @@ public class Collector {
     }
 
     public void collect(){
-        collector.setPower(1);
+        collector.setPower(0.5);
         collectorState = CollectorEnum.COLLECTING;
     }
 
     public void eject(){
-        collector.setPower(-1);
+        collector.setPower(-0.5);
         collectorState = CollectorEnum.EJECTING;
     }
 
