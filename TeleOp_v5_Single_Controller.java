@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp(name = "Mec Tank v5 Single Controller", group = "Mec Tank v5")
+@Disabled
 public class TeleOp_v5_Single_Controller extends OpMode {
     CombinedHardware robot = new CombinedHardware();
 
@@ -18,9 +20,6 @@ public class TeleOp_v5_Single_Controller extends OpMode {
     @Override
     public void init(){
         robot.init(hardwareMap);
-
-        updateTelemetry(telemetry);
-
     }
 
     @Override
@@ -150,9 +149,7 @@ public class TeleOp_v5_Single_Controller extends OpMode {
             robot.collector.stop();
         }
 
-//        telemetry.addData("First Angle: ", robot.gyroAutoDriver.angles.firstAngle);
-//        telemetry.addData("Second Angle: ", robot.gyroAutoDriver.angles.secondAngle);
-//        telemetry.addData("Third Angle: ", robot.gyroAutoDriver.angles.thirdAngle);
+
         telemetry.update();
 
     }
