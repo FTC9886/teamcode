@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.vuforia.CameraDevice;
 
 @Autonomous(name="Blue_Depot", group="Autonomous")
-//@Disabled
+@Disabled
 
 public class Blue_Depot extends LinearOpMode {
     public void runOpMode() {
