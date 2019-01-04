@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.CameraDevice;
 
 @Autonomous(name="CraterAuto", group="Autonomous")
@@ -24,6 +25,7 @@ public class CraterAuto extends LinearOpMode {
         tensor_flow.init(this);
         CameraDevice.getInstance().setFlashTorchMode(true);
         double defaultSpeed = 0.4;
+        ElapsedTime timer = new ElapsedTime();
 
         waitForStart();
         //change to use a more robust function later
@@ -40,8 +42,12 @@ public class CraterAuto extends LinearOpMode {
         tensor_flow.activate();
         //FIND GOLD
         Michaels_tensor_flow.goldfinder goldPosition = Michaels_tensor_flow.goldfinder.UNKNOWN;
+        timer.startTime();
         while(goldPosition == Michaels_tensor_flow.goldfinder.UNKNOWN) {
             goldPosition = tensor_flow.getGoldPosition(telemetry);
+            if(timer.seconds()>5){
+                break;
+            }
         }
         telemetry.addData("Position", goldPosition);
         telemetry.update();
@@ -168,6 +174,40 @@ public class CraterAuto extends LinearOpMode {
                 break;
 
             case UNKNOWN:
+                //Drive to and push middle block
+                robot.driveRight(this, 24, defaultSpeed, 10);
+                robot.pause(250);
+                //back up
+                robot.driveLeft(this, 6, defaultSpeed, 3);
+                robot.pause(250);
+                //drive toward the wall
+                robot.translateForward(this, 30, defaultSpeed, 10);
+                robot.pause(250);
+                //turn to be parallel with the wall
+                robot.gyroAutoDriver.turn(115, defaultSpeed, 5);
+                robot.pause(250);
+                //drive toward the wall
+                robot.translateBackward(this, 20, defaultSpeed, 5);
+                robot.pause(250);
+                //drive away from the wall
+                robot.translateForward(this, 1, defaultSpeed, 5);
+                robot.pause(250);
+                //drive to depot
+                robot.gyroAutoDriver.driveForwards(90, 0.5);
+                robot.pause(500);
+                //deposit marker
+                robot.markerDeploy.deploy();
+                robot.pause(250);
+                //Release marker
+                robot.driveRight(this, 1, 0.2, 3);
+                robot.pause(250);
+                //retract marker servo
+                robot.markerDeploy.retract();
+                robot.pause(250);
+                //drive to crater
+                //robot.driveLeft(this, 64, 0.5, 10);
+                robot.gyroAutoDriver.driveBackwards(125, 0.5);
+                break;
             default: //like unknown
                 //drive straight and hope the block is there
                 break;
