@@ -25,7 +25,6 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         robot.right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         angles = robot.adafruitIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YZX, AngleUnit.DEGREES);
-
         updateTelemetry(telemetry);
 
     }
@@ -124,11 +123,11 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
 
 
         //Collector arm extend/retract
-        if (gamepad2.b)
+        if (gamepad2.y)
         {
             robot.extenderArm.extend();
         }
-        else if (gamepad2.x)
+        else if (gamepad2.a)
         {
             robot.extenderArm.retract();
         }
@@ -138,18 +137,24 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         }
 
         //Rotate Collector Arm
-        if (gamepad2.y)
+        if (gamepad2.dpad_up)
         {
             robot.rotateArm.angleUp();
         }
-        else if(gamepad2.a)
+        else if(gamepad2.dpad_down)
         {
             robot.rotateArm.angleDown();
         }
+        //else if (gamepad2.left_stick_y < .5)
         else
         {
             robot.rotateArm.stop();
         }
+        //read arm position
+        //parallel to ground is 3.22 Volts, Perpendicular 1.52 Volts, Back about 25 degrees 1.28 Volts
+        double arm_position = 0;
+        arm_position = robot.potentiometer.getVoltage();
+        telemetry.addData("arm_position =     ", arm_position);
 
         //Collector
         if (gamepad2.left_bumper)

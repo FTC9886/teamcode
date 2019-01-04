@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -22,6 +23,7 @@ public class CombinedHardware {
     public RotateArm rotateArm;
     public Collector collector;
     public MarkerDeploy markerDeploy;
+    public AnalogInput potentiometer   = null;
 
     public GyroAutoDriver gyroAutoDriver;
 
@@ -62,6 +64,7 @@ public class CombinedHardware {
         rotateArm = new RotateArm("rotate_arm", ahwMap);
         collector = new Collector("collector", ahwMap);
         markerDeploy = new MarkerDeploy("marker_servo", ahwMap);
+        potentiometer = ahwMap.analogInput.get("arm_angle");
 
         //Sensor Setup
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
