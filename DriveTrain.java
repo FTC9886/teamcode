@@ -89,6 +89,13 @@ public class DriveTrain {
         rightDrivePower(rightSpeed);
     }
 
+    public void stickPower(double leftPower, double rightPower){
+        left_front_drive.setPower (leftPower);
+        right_back_drive.setPower (-rightPower);
+        right_front_drive.setPower(rightPower);
+        left_back_drive.setPower  (-leftPower);
+    }
+
 
     public void forwards(double power){
         left_front_drive.setPower (-power);

@@ -39,10 +39,11 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         gamepad1_right = -gamepad1.right_stick_y;
         if(gamepad1_left > 0.1 || gamepad1_left < -0.1 || gamepad1_right > 0.1 || gamepad1_right < -0.1)
         {
-            robot.driveTrain.left_front_drive.setPower (gamepad1_left);
-            robot.driveTrain.right_front_drive.setPower(gamepad1_right);
-            robot.driveTrain.left_back_drive.setPower  (-gamepad1_left);
-            robot.driveTrain.right_back_drive.setPower (-gamepad1_right);
+            robot.driveTrain.stickPower(gamepad1_left,gamepad1_right);
+//            robot.driveTrain.left_front_drive.setPower (gamepad1_left);
+//            robot.driveTrain.right_front_drive.setPower(gamepad1_right);
+//            robot.driveTrain.left_back_drive.setPower  (-gamepad1_left);
+//            robot.driveTrain.right_back_drive.setPower (-gamepad1_right);
         }
         //Translate left and right
         else if (gamepad1.right_trigger > 0.1)
