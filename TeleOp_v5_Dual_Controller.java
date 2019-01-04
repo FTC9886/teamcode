@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@TeleOp(name = "Mec Tank v5 Dual Controller", group = "Mec Tank v5")
+@TeleOp(name = "Mec Tank v5", group = "Mec Tank v5")
 public class TeleOp_v5_Dual_Controller extends OpMode {
     CombinedHardware robot = new CombinedHardware();
 
@@ -24,7 +24,6 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         robot.left_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        angles = robot.adafruitIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YZX, AngleUnit.DEGREES);
         updateTelemetry(telemetry);
 
     }
@@ -170,11 +169,7 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
             robot.collector.stop();
         }
 
-        angles = robot.adafruitIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YZX, AngleUnit.DEGREES);
 
-        telemetry.addData("First Angle: ", angles.firstAngle);
-        telemetry.addData("Second Angle: ",angles.secondAngle);
-        telemetry.addData("Third Angle: ", angles.thirdAngle);
         telemetry.update();
     }
 
