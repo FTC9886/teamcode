@@ -14,7 +14,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class TeleOp_v5_Dual_Controller extends OpMode {
     CombinedHardware robot = new CombinedHardware();
 
-    private Orientation angles;
 
     @Override
     public void init(){
@@ -24,7 +23,6 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         robot.left_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        updateTelemetry(telemetry);
 
     }
 
@@ -149,11 +147,11 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         {
             robot.rotateArm.stop();
         }
-        //read arm position
-        //parallel to ground is 3.22 Volts, Perpendicular 1.52 Volts, Back about 25 degrees 1.28 Volts
-        double arm_position = 0;
-        arm_position = robot.potentiometer.getVoltage();
-        telemetry.addData("arm_position =     ", arm_position);
+//        //read arm position
+//        //parallel to ground is 3.22 Volts, Perpendicular 1.52 Volts, Back about 25 degrees 1.28 Volts
+//        double arm_position = 0;
+//        arm_position = robot.potentiometer.getVoltage();
+//        telemetry.addData("arm_position =     ", arm_position);
 
         //Collector
         if (gamepad2.left_bumper)
