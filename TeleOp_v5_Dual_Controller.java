@@ -134,19 +134,19 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         }
 
         //Rotate Collector Arm
-        if (gamepad2.dpad_up)
-        {
-            robot.rotateArm.angleUp();
-        }
-        else if(gamepad2.dpad_down)
-        {
-            robot.rotateArm.angleDown();
-        }
-        //else if (gamepad2.left_stick_y < .5)
-        else
-        {
-            robot.rotateArm.stop();
-        }
+        robot.rotateArm.changeAngle(gamepad2.left_stick_y);
+//        if (gamepad2.dpad_up)
+//        {
+//            robot.rotateArm.angleUp();
+//        }
+//        else if(gamepad2.dpad_down)
+//        {
+//            robot.rotateArm.angleDown();
+//        }
+//        else
+//        {
+//            robot.rotateArm.stop();
+//        }
 //        //read arm position
 //        //parallel to ground is 3.22 Volts, Perpendicular 1.52 Volts, Back about 25 degrees 1.28 Volts
 //        double arm_position = 0;
