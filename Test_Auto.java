@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Autonomous(name="Test_Auto", group="Autonomous")
+@Disabled
 public class Test_Auto extends LinearOpMode{
     public void runOpMode(){
         CombinedHardware robot = new CombinedHardware();
