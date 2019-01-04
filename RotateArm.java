@@ -9,6 +9,7 @@ public class RotateArm {
     private enum RotateArmEnum{
         ROTATING_UP,
         ROTATING_DOWN,
+        ROTATING,
         STOPPED
     }
 
@@ -18,6 +19,11 @@ public class RotateArm {
         this.rotateMotor = hardwareMap.dcMotor.get(rotateMotor);
         this.rotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         stop();
+    }
+
+    public void changeAngle(Double power){
+        rotateMotor.setPower(power);
+        rotateArmState = RotateArm.RotateArmEnum.ROTATING;
     }
 
     public void angleUp(){
@@ -43,6 +49,8 @@ public class RotateArm {
                 return "Rotate Extender Arm Up";
             case ROTATING_DOWN:
                 return "Rotate Extender Arm Down";
+            case ROTATING:
+                return "Rotating Extender Arm";
             case STOPPED:
                 return "Stopped Changing Extender Arm Angle";
             default:
