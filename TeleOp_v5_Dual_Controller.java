@@ -18,10 +18,10 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
     @Override
     public void init(){
         robot.init(hardwareMap);
-        robot.left_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.right_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.left_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.driveTrain.left_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.driveTrain.right_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.driveTrain.left_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.driveTrain.right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
     }
@@ -39,63 +39,43 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         gamepad1_right = -gamepad1.right_stick_y;
         if(gamepad1_left > 0.1 || gamepad1_left < -0.1 || gamepad1_right > 0.1 || gamepad1_right < -0.1)
         {
-            robot.left_front_drive.setPower (gamepad1_left);
-            robot.right_front_drive.setPower(gamepad1_right);
-            robot.left_back_drive.setPower  (-gamepad1_left);
-            robot.right_back_drive.setPower (-gamepad1_right);
+            robot.driveTrain.left_front_drive.setPower (gamepad1_left);
+            robot.driveTrain.right_front_drive.setPower(gamepad1_right);
+            robot.driveTrain.left_back_drive.setPower  (-gamepad1_left);
+            robot.driveTrain.right_back_drive.setPower (-gamepad1_right);
         }
         //Translate left and right
         else if (gamepad1.right_trigger > 0.1)
         {
-            robot.left_front_drive.setPower (-gamepad1.right_trigger/1.5);
-            robot.right_front_drive.setPower(-gamepad1.right_trigger/1.5);
-            robot.left_back_drive.setPower  (-gamepad1.right_trigger/1.5);
-            robot.right_back_drive.setPower (-gamepad1.right_trigger/1.5);
+            robot.driveTrain.teleTranslate(-gamepad1.right_trigger/1.5);
         }
         else if (gamepad1.left_trigger > 0.1)
         {
-            robot.left_front_drive.setPower (gamepad1.left_trigger/1.5);
-            robot.right_front_drive.setPower(gamepad1.left_trigger/1.5);
-            robot.left_back_drive.setPower  (gamepad1.left_trigger/1.5);
-            robot.right_back_drive.setPower (gamepad1.left_trigger/1.5);
+            robot.driveTrain.teleTranslate(gamepad1.left_trigger/1.5);
+
         }
         //D-pad Driving
         else if (gamepad1.dpad_up)
         {
-            robot.left_front_drive.setPower (-0.3);
-            robot.right_front_drive.setPower(0.3);
-            robot.left_back_drive.setPower  (0.3);
-            robot.right_back_drive.setPower (-0.3);
-            //robot.drivePowers(0.25, -0.25);
+            robot.driveTrain.forwards(0.3);
         }
         else if (gamepad1.dpad_down)
         {
-            robot.left_front_drive.setPower (0.3);
-            robot.right_front_drive.setPower(-0.3);
-            robot.left_back_drive.setPower  (-0.3);
-            robot.right_back_drive.setPower (0.3);
-            //robot.drivePowers(-0.25, 0.25);
+            robot.driveTrain.backwards(0.3);
         }
         else if (gamepad1.dpad_left)
         {
-            robot.left_front_drive.setPower (0.3);
-            robot.right_front_drive.setPower(0.3);
-            robot.left_back_drive.setPower  (0.3);
-            robot.right_back_drive.setPower (0.3);
+            robot.driveTrain.left(0.3);
 
-            //robot.powerTranslate(0.25);
         }
         else if (gamepad1.dpad_right)
         {
-            robot.left_front_drive.setPower (-0.3);
-            robot.right_front_drive.setPower(-0.3);
-            robot.left_back_drive.setPower  (-0.3);
-            robot.right_back_drive.setPower (-0.3);
-            //robot.powerTranslate(-0.25);
+            robot.driveTrain.right(0.3);
+
         }
         else
         {
-            robot.stopDrive();
+            robot.driveTrain.stopDrive();
         }
 
         //Hang lift
@@ -172,7 +152,7 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
 
     @Override
     public void stop(){
-        robot.stopDrive();
+        robot.driveTrain.stopDrive();
         robot.collector.stop();
         robot.extenderArm.stop();
         robot.rotateArm.stop();

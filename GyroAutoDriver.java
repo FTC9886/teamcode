@@ -35,71 +35,39 @@ public double Heading(){
 
 public void driveBackwards(float distance, double power){
     double target = Heading();
-    hw.resetEncoders();
+    hw.driveTrain.resetEncoders();
     hw.pause(100);
 //    hw.rightDrivePower(power);
 //    hw.leftDrivePower(power);
 
-    while(hw.left_front_drive.getCurrentPosition() < (hw.COUNTS_PER_INCH_LandR * (distance/2)) && hw.left_back_drive.getCurrentPosition() < (hw.COUNTS_PER_INCH_LandR * (distance/2)) /*&& hw.opMode.opModeIsActive()*/)
+    while(hw.driveTrain.left_front_drive.getCurrentPosition() < (hw.driveTrain.COUNTS_PER_INCH_LandR * (distance/2)) && hw.driveTrain.left_back_drive.getCurrentPosition() < (hw.driveTrain.COUNTS_PER_INCH_LandR * (distance/2)) /*&& hw.opMode.opModeIsActive()*/)
     {
         double currentHeading = Heading();
-        hw.drivePowers(power + (currentHeading - target) / 50,
+        hw.driveTrain.drivePowers(power + (currentHeading - target) / 50,
                 power - (currentHeading - target) / 50);
     }
-    hw.stopDrive();
+    hw.driveTrain.stopDrive();
 
 }
 
 public void driveForwards(float distance, double power){
     double target = Heading();
-    hw.resetEncoders();
+    hw.driveTrain.resetEncoders();
     hw.pause(100);
 
-    while(hw.left_front_drive.getCurrentPosition() > -(hw.COUNTS_PER_INCH_LandR * (distance/2)) && hw.left_back_drive.getCurrentPosition() > -(hw.COUNTS_PER_INCH_LandR * (distance/2)) /*&& hw.opMode.opModeIsActive()*/)
+    while(hw.driveTrain.left_front_drive.getCurrentPosition() > -(hw.driveTrain.COUNTS_PER_INCH_LandR * (distance/2)) && hw.driveTrain.left_back_drive.getCurrentPosition() > -(hw.driveTrain.COUNTS_PER_INCH_LandR * (distance/2)) /*&& hw.opMode.opModeIsActive()*/)
     {
         double currentHeading = Heading();  //Current direction
 
-        hw.drivePowers(-power + (currentHeading - target) / 50,
+        hw.driveTrain.drivePowers(-power + (currentHeading - target) / 50,
                 -power - (currentHeading - target) / 50);
 
     }
 
-    hw.stopDrive();
+    hw.driveTrain.stopDrive();
 }
 
-//    public void turn(int target, double power)
-//    {
-//        double initialValue = angles.firstAngle;  //Starting direction
-//
-//        double gyroTarget = initialValue + 90;
-//
-//
-//
-//
-//        if(gyroTarget > 180)
-//        {
-//            gyroTarget -= 360;
-//        }
-//        else if(gyroTarget < -180)
-//        {
-//            gyroTarget += 360;
-//        }
-//
-//        boolean shouldBeRunning = true;
-//
-//        while(shouldBeRunning)
-//        {
-//            float currentHeading = angles.firstAngle;  //Current direction
-//
-//            hw.drivePowers(-power + (currentHeading - gyroTarget) / 50,
-//
-//                    -power - (currentHeading - gyroTarget) / 50);
-//        }
-//
-//        hw.stopDrive();
-//
-//    }
-//
+
     public void turn(float anglechange, double speed, double timeoutS)
     {
         angles = hw.adafruitIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YZX, AngleUnit.DEGREES);
@@ -115,12 +83,12 @@ public void driveForwards(float distance, double power){
 
         if (anglechange < 0)
         {
-            hw.drivePowers(speed, -speed);
+            hw.driveTrain.drivePowers(speed, -speed);
 
         }
         else
         {
-            hw.drivePowers(-speed,speed);
+            hw.driveTrain.drivePowers(-speed,speed);
         }
 
         while ((runtime.seconds() < timeoutS) &&
@@ -130,7 +98,7 @@ public void driveForwards(float distance, double power){
         }
 
         // Stop all motion;
-        hw.stopDrive();
+        hw.driveTrain.stopDrive();
         hw.pause(250);
     }
 }

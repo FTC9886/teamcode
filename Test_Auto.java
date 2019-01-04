@@ -17,9 +17,9 @@ public class Test_Auto extends LinearOpMode{
         waitForStart();
         while(opModeIsActive()) {
             if (gamepad1.a) {
-                robot.drivePowers(0.5, 0.5);
+                robot.driveTrain.drivePowers(0.5, 0.5);
             } else if (gamepad1.b){
-                robot.drivePowers(-0.5, -0.5);
+                robot.driveTrain.drivePowers(-0.5, -0.5);
         }else if(gamepad1.x){
                 robot.gyroAutoDriver.driveForwards(5, 0.5);
          }else if(gamepad1.y){
@@ -30,7 +30,7 @@ public class Test_Auto extends LinearOpMode{
             }else if(gamepad1.left_bumper){
                 robot.gyroAutoDriver.driveBackwards(10, 0.5);
             }else{
-                robot.stopDrive();
+                robot.driveTrain.stopDrive();
             }
 
          telemetry.addData("Angle ", driver.Heading());

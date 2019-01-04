@@ -42,7 +42,7 @@ public class Blue_Depot extends LinearOpMode {
             telemetry.addData("hang arm",robot.hangArm);
             telemetry.update();
         }
-        robot.translateBackward(this, 5, 0.5, 3);
+        robot.driveTrain.translateBackward(this, 5, 0.5, 3);
         robot.pause(500);
         //Drive right to clear lander
 
@@ -59,52 +59,52 @@ public class Blue_Depot extends LinearOpMode {
         robot.pause(1000);
 
         telemetry.addData("Path01", "Starting at %7d : %7d : %7d : %7d",
-                robot.left_front_drive.getCurrentPosition(),
-                robot.right_front_drive.getCurrentPosition(),
-                robot.left_back_drive.getCurrentPosition(),
-                robot.right_back_drive.getCurrentPosition());
+                robot.driveTrain.left_front_drive.getCurrentPosition(),
+                robot.driveTrain.right_front_drive.getCurrentPosition(),
+                robot.driveTrain.left_back_drive.getCurrentPosition(),
+                robot.driveTrain.right_back_drive.getCurrentPosition());
         telemetry.update();
         robot.pause(1000);
 
         //Drive toward the minerals
-        robot.driveRight(this, 16.5, 0.3, 5);
+        robot.driveTrain.driveRight(this, 16.5, 0.3, 5);
         telemetry.addData("Path02", "Starting at %7d : %7d : %7d : %7d",
-                robot.left_front_drive.getCurrentPosition(),
-                robot.right_front_drive.getCurrentPosition(),
-                robot.left_back_drive.getCurrentPosition(),
-                robot.right_back_drive.getCurrentPosition());
+                robot.driveTrain.left_front_drive.getCurrentPosition(),
+                robot.driveTrain.right_front_drive.getCurrentPosition(),
+                robot.driveTrain.left_back_drive.getCurrentPosition(),
+                robot.driveTrain.right_back_drive.getCurrentPosition());
         telemetry.update();
         robot.pause(10000);
 
         //Drive past the minerals
-        robot.translateForward(this, 20, 0.3, 5);
+        robot.driveTrain.translateForward(this, 20, 0.3, 5);
         telemetry.addData("Path03", "Starting at %7d : %7d : %7d : %7d",
-                robot.left_front_drive.getCurrentPosition(),
-                robot.right_front_drive.getCurrentPosition(),
-                robot.left_back_drive.getCurrentPosition(),
-                robot.right_back_drive.getCurrentPosition());
+                robot.driveTrain.left_front_drive.getCurrentPosition(),
+                robot.driveTrain.right_front_drive.getCurrentPosition(),
+                robot.driveTrain.left_back_drive.getCurrentPosition(),
+                robot.driveTrain.right_back_drive.getCurrentPosition());
         telemetry.update();
         robot.pause(10000);
 
         //Need to add a 45 deg CCW turn here #######
             robot.gyroAutoDriver.turn(45, 0.3, 5);
         //Drive toward and align against the wall
-        robot.driveRight(this, 6, 0.3, 2);
+        robot.driveTrain.driveRight(this, 6, 0.3, 2);
         telemetry.addData("Path04", "Starting at %7d : %7d : %7d : %7d",
-                robot.left_front_drive.getCurrentPosition(),
-                robot.right_front_drive.getCurrentPosition(),
-                robot.left_back_drive.getCurrentPosition(),
-                robot.right_back_drive.getCurrentPosition());
+                robot.driveTrain.left_front_drive.getCurrentPosition(),
+                robot.driveTrain.right_front_drive.getCurrentPosition(),
+                robot.driveTrain.left_back_drive.getCurrentPosition(),
+                robot.driveTrain.right_back_drive.getCurrentPosition());
         telemetry.update();
         robot.pause(10000);
 
         //Drive to the depot
-        robot.translateBackward(this, 39, 0.3, 10);
+        robot.driveTrain.translateBackward(this, 39, 0.3, 10);
         telemetry.addData("Path05", "Starting at %7d : %7d : %7d : %7d",
-                robot.left_front_drive.getCurrentPosition(),
-                robot.right_front_drive.getCurrentPosition(),
-                robot.left_back_drive.getCurrentPosition(),
-                robot.right_back_drive.getCurrentPosition());
+                robot.driveTrain.left_front_drive.getCurrentPosition(),
+                robot.driveTrain.right_front_drive.getCurrentPosition(),
+                robot.driveTrain.left_back_drive.getCurrentPosition(),
+                robot.driveTrain.right_back_drive.getCurrentPosition());
         telemetry.update();
         robot.pause(10000);
 
@@ -114,12 +114,12 @@ public class Blue_Depot extends LinearOpMode {
         robot.markerDeploy.retract();
 
         //Drive toward the opposing crater
-        robot.translateForward(this, 74, 0.3, 15);
+        robot.driveTrain.translateForward(this, 74, 0.3, 15);
         telemetry.addData("Path06", "Starting at %7d : %7d : %7d : %7d",
-                robot.left_front_drive.getCurrentPosition(),
-                robot.right_front_drive.getCurrentPosition(),
-                robot.left_back_drive.getCurrentPosition(),
-                robot.right_back_drive.getCurrentPosition());
+                robot.driveTrain.left_front_drive.getCurrentPosition(),
+                robot.driveTrain.right_front_drive.getCurrentPosition(),
+                robot.driveTrain.left_back_drive.getCurrentPosition(),
+                robot.driveTrain.right_back_drive.getCurrentPosition());
         telemetry.update();
         robot.pause(10000);
 

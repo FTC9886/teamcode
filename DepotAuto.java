@@ -35,7 +35,7 @@ public class DepotAuto extends LinearOpMode {
         robot.pause(1000);
 
         //Move robot away from lander latch
-        robot.translateBackward(this, 4, 0.3, 3);
+        robot.driveTrain.translateBackward(this, 4, 0.3, 3);
         robot.pause(500);
 
         tensor_flow.activate();
@@ -58,25 +58,25 @@ public class DepotAuto extends LinearOpMode {
 
         switch (goldPosition) {
             case LEFT:
-                    robot.driveRight(this, 14, defaultSpeed, 3);
+                    robot.driveTrain.driveRight(this, 14, defaultSpeed, 3);
                     robot.pause(250);
                 //drive 2" from minerals
-                    robot.translateForward(this, 21, defaultSpeed, 5);
+                    robot.driveTrain.translateForward(this, 21, defaultSpeed, 5);
                     robot.pause(250);
                 //drive to left block
-                    robot.driveRight(this, 10, defaultSpeed, 5);
+                    robot.driveTrain.driveRight(this, 10, defaultSpeed, 5);
                     robot.pause(250);
                 //Pull back from block
-                    robot.driveLeft(this, 8, defaultSpeed, 3);
+                    robot.driveTrain.driveLeft(this, 8, defaultSpeed, 3);
                     robot.pause(250);
                 //turn robot to the left to face the wall
                     robot.gyroAutoDriver.turn(-30, 0.2, 5);
                     robot.pause(250);
                 //drive toward the wall
-                    robot.translateForward(this, 26, defaultSpeed, 5);
+                    robot.driveTrain.translateForward(this, 26, defaultSpeed, 5);
                     robot.pause(250);
                 //drive away from the wall
-                    robot.translateBackward(this, 5, 0.3, 5);
+                    robot.driveTrain.translateBackward(this, 5, 0.3, 5);
                     robot.pause(100);
                 //drive to depot
                     robot.gyroAutoDriver.driveForwards(40, 0.5);
@@ -85,7 +85,7 @@ public class DepotAuto extends LinearOpMode {
                     robot.markerDeploy.deploy();
                     robot.pause(250);
                 //Release marker
-                    robot.driveRight(this, 1, 0.2, 3);
+                    robot.driveTrain.driveRight(this, 1, 0.2, 3);
                     robot.pause(250);
                 //retract marker servo
                     robot.markerDeploy.retract();
@@ -95,28 +95,28 @@ public class DepotAuto extends LinearOpMode {
                 break;
 
             case RIGHT:
-                    robot.driveRight(this, 14, defaultSpeed, 3);
+                    robot.driveTrain.driveRight(this, 14, defaultSpeed, 3);
                     robot.pause(250);
                 //drive 2" from minerals
-                    robot.translateBackward(this, 13.5, 0.2, 5);
+                    robot.driveTrain.translateBackward(this, 13.5, 0.2, 5);
                     robot.pause(250);
                 //drive to right block
-                    robot.driveRight(this, 6, defaultSpeed, 5);
+                    robot.driveTrain.driveRight(this, 6, defaultSpeed, 5);
                     robot.pause(250);
                 //back up
-                    robot.driveLeft(this, 5, defaultSpeed, 3);
+                    robot.driveTrain.driveLeft(this, 5, defaultSpeed, 3);
                     robot.pause(250);
                 //drive toward the wall
-                    robot.translateForward(this, 60, defaultSpeed, 10);
+                    robot.driveTrain.translateForward(this, 60, defaultSpeed, 10);
                     robot.pause(250);
                 //turn to be parallel with the wall
                     robot.gyroAutoDriver.turn(-30, 0.20, 5);
                     robot.pause(250);
                 //drive toward the wall
-                    robot.translateForward(this, 26, defaultSpeed, 5);
+                    robot.driveTrain.translateForward(this, 26, defaultSpeed, 5);
                     robot.pause(250);
                 //drive away from the wall
-                    robot.translateBackward(this, 5, 0.5, 5);
+                    robot.driveTrain.translateBackward(this, 5, 0.5, 5);
                     robot.pause(100);
                 //drive to depot
                     robot.gyroAutoDriver.driveForwards(90, 0.5);
@@ -125,7 +125,7 @@ public class DepotAuto extends LinearOpMode {
                     robot.markerDeploy.deploy();
                     robot.pause(250);
                 //Release marker
-                    robot.driveRight(this, 1, 0.2, 3);
+                    robot.driveTrain.driveRight(this, 1, 0.2, 3);
                     robot.pause(250);
                 //retract marker servo
                     robot.markerDeploy.retract();
@@ -136,28 +136,28 @@ public class DepotAuto extends LinearOpMode {
 
             case MIDDLE:
                 //Drive to and push middle block to the depot
-                    robot.driveRight(this, 55, defaultSpeed, 10);
+                    robot.driveTrain.driveRight(this, 55, defaultSpeed, 10);
                     robot.pause(250);
                 //deposit marker
                     robot.markerDeploy.deploy();
                     robot.pause(250);
                 //Release marker
-                    robot.driveRight(this, 1, 0.2, 3);
+                    robot.driveTrain.driveRight(this, 1, 0.2, 3);
                     robot.pause(250);
                 //retract marker servo
                     robot.markerDeploy.retract();
                     robot.pause(250);
                 //back off of the block to avoid hitting it when turning.
-                    robot.driveLeft(this, 5, 0.2, 3);
+                    robot.driveTrain.driveLeft(this, 5, 0.2, 3);
                     robot.pause(250);
                 //turn to be parallel with wall
                     robot.gyroAutoDriver.turn(-30, defaultSpeed, 5);
                     robot.pause(250);
                 //drive toward the wall
-                    robot.translateForward(this, 20, defaultSpeed, 5);
+                    robot.driveTrain.translateForward(this, 20, defaultSpeed, 5);
                     robot.pause(250);
                 //drive away from the wall
-                    robot.translateBackward(this, 5, defaultSpeed, 5);
+                    robot.driveTrain.translateBackward(this, 5, defaultSpeed, 5);
                     robot.pause(250);
                 //drive to crater
                     robot.gyroAutoDriver.driveBackwards(125, 0.5);
@@ -165,22 +165,22 @@ public class DepotAuto extends LinearOpMode {
 
             case UNKNOWN:
                 //Drive to and push middle block
-                robot.driveRight(this, 24, defaultSpeed, 10);
+                robot.driveTrain.driveRight(this, 24, defaultSpeed, 10);
                 robot.pause(250);
                 //back up
-                robot.driveLeft(this, 6, defaultSpeed, 3);
+                robot.driveTrain.driveLeft(this, 6, defaultSpeed, 3);
                 robot.pause(250);
                 //drive toward the wall
-                robot.translateForward(this, 30, defaultSpeed, 10);
+                robot.driveTrain.translateForward(this, 30, defaultSpeed, 10);
                 robot.pause(250);
                 //turn to be parallel with the wall
                 robot.gyroAutoDriver.turn(115, defaultSpeed, 5);
                 robot.pause(250);
                 //drive toward the wall
-                robot.translateBackward(this, 20, defaultSpeed, 5);
+                robot.driveTrain.translateBackward(this, 20, defaultSpeed, 5);
                 robot.pause(250);
                 //drive away from the wall
-                robot.translateForward(this, 1, defaultSpeed, 5);
+                robot.driveTrain.translateForward(this, 1, defaultSpeed, 5);
                 robot.pause(250);
                 //drive to depot
                 robot.gyroAutoDriver.driveForwards(90, 0.5);
@@ -189,7 +189,7 @@ public class DepotAuto extends LinearOpMode {
                 robot.markerDeploy.deploy();
                 robot.pause(250);
                 //Release marker
-                robot.driveRight(this, 1, 0.2, 3);
+                robot.driveTrain.driveRight(this, 1, 0.2, 3);
                 robot.pause(250);
                 //retract marker servo
                 robot.markerDeploy.retract();
