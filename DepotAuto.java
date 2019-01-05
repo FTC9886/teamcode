@@ -44,10 +44,9 @@ public class DepotAuto extends LinearOpMode {
         timer.startTime();
         while(goldPosition == Michaels_tensor_flow.goldfinder.UNKNOWN) {
             goldPosition = tensor_flow.getGoldPosition(telemetry);
-
-            if (timer.seconds() > 5){
-                break;
-            }
+//            if (timer.seconds() > 5){
+//                break;
+//            }
         }
         telemetry.addData("Position", goldPosition);
         telemetry.update();
@@ -164,27 +163,9 @@ public class DepotAuto extends LinearOpMode {
                 break;
 
             case UNKNOWN:
-                //Drive to and push middle block
-                robot.driveTrain.driveRight(this, 24, defaultSpeed, 10);
+                //Drive to and push middle block to the depot
+                robot.driveTrain.driveRight(this, 55, defaultSpeed, 10);
                 robot.pause(250);
-                //back up
-                robot.driveTrain.driveLeft(this, 6, defaultSpeed, 3);
-                robot.pause(250);
-                //drive toward the wall
-                robot.driveTrain.translateForward(this, 30, defaultSpeed, 10);
-                robot.pause(250);
-                //turn to be parallel with the wall
-                robot.gyroAutoDriver.turn(115, defaultSpeed, 5);
-                robot.pause(250);
-                //drive toward the wall
-                robot.driveTrain.translateBackward(this, 20, defaultSpeed, 5);
-                robot.pause(250);
-                //drive away from the wall
-                robot.driveTrain.translateForward(this, 1, defaultSpeed, 5);
-                robot.pause(250);
-                //drive to depot
-                robot.gyroAutoDriver.driveForwards(90, 0.5);
-                robot.pause(500);
                 //deposit marker
                 robot.markerDeploy.deploy();
                 robot.pause(250);
@@ -194,8 +175,19 @@ public class DepotAuto extends LinearOpMode {
                 //retract marker servo
                 robot.markerDeploy.retract();
                 robot.pause(250);
+                //back off of the block to avoid hitting it when turning.
+                robot.driveTrain.driveLeft(this, 5, 0.2, 3);
+                robot.pause(250);
+                //turn to be parallel with wall
+                robot.gyroAutoDriver.turn(-30, defaultSpeed, 5);
+                robot.pause(250);
+                //drive toward the wall
+                robot.driveTrain.translateForward(this, 20, defaultSpeed, 5);
+                robot.pause(250);
+                //drive away from the wall
+                robot.driveTrain.translateBackward(this, 5, defaultSpeed, 5);
+                robot.pause(250);
                 //drive to crater
-                //robot.driveLeft(this, 64, 0.5, 10);
                 robot.gyroAutoDriver.driveBackwards(125, 0.5);
                 break;
             default: //like unknown
