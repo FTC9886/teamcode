@@ -1,10 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Extensions.CombinedHardware;
 
 @Autonomous(name="Test_Auto", group="Autonomous")
 @Disabled
@@ -12,7 +13,7 @@ public class Test_Auto extends LinearOpMode{
     public void runOpMode(){
         CombinedHardware robot = new CombinedHardware();
         robot.init(hardwareMap);
-        GyroAutoDriver driver = new GyroAutoDriver(robot);
+
 
         waitForStart();
         while(opModeIsActive()) {
@@ -33,8 +34,7 @@ public class Test_Auto extends LinearOpMode{
                 robot.driveTrain.stopDrive();
             }
 
-         telemetry.addData("Angle ", driver.Heading());
-         telemetry.update();
+
         }
 
 

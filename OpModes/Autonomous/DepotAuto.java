@@ -1,9 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.CameraDevice;
+
+import org.firstinspires.ftc.teamcode.Extensions.CombinedHardware;
+import org.firstinspires.ftc.teamcode.Extensions.Michaels_tensor_flow;
 
 @Autonomous(name="DepotAuto", group="Autonomous")
 //@Disabled
