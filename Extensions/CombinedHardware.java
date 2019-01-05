@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Extensions;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -8,6 +8,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.Subsystems.Collector;
+import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.ExtenderArm;
+import org.firstinspires.ftc.teamcode.Extensions.GyroAutoDriver;
+import org.firstinspires.ftc.teamcode.Subsystems.HangArm;
+import org.firstinspires.ftc.teamcode.Subsystems.MarkerDeploy;
+import org.firstinspires.ftc.teamcode.Subsystems.RotateArm;
 
 public class CombinedHardware {
 
