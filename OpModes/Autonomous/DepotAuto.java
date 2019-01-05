@@ -8,28 +8,45 @@ import com.vuforia.CameraDevice;
 import org.firstinspires.ftc.teamcode.Extensions.CombinedHardware;
 import org.firstinspires.ftc.teamcode.Extensions.Michaels_tensor_flow;
 
+import java.net.SocketTimeoutException;
+import java.util.concurrent.TimeoutException;
+
 @Autonomous(name="DepotAuto", group="Autonomous")
 //@Disabled
 
-public class DepotAuto extends LinearOpMode {
-    public void runOpMode() {
+public class DepotAuto extends LinearOpMode{
+    CombinedHardware robot = new CombinedHardware(); // use the class created to define a Pushbot's hardware
+    Michaels_tensor_flow tensor_flow = new Michaels_tensor_flow();
+    ElapsedTime timer = new ElapsedTime();
 
 
-        /* Declare OpMode members. */
-        CombinedHardware robot = new CombinedHardware(); // use the class created to define a Pushbot's hardware
-        // could also use HardwarePushbotMatrix class.
 
-        /* Initialize the hardware variables.
-         * The init() method of the hardware class does all the work here
-         */
-        robot.init(hardwareMap);
-        Michaels_tensor_flow tensor_flow = new Michaels_tensor_flow();
+    @Override
+    public void runOpMode() throws RuntimeException{
+
+            /* Declare OpMode members. */
+
+            // could also use HardwarePushbotMatrix class.
+
+            /* Initialize the hardware variables.
+             * The init() method of the hardware class does all the work here
+             */
+            robot.init(hardwareMap);
+
+
+            double defaultSpeed = 0.4;
+            int count = 0;
         tensor_flow.init(this);
         CameraDevice.getInstance().setFlashTorchMode(true);
-        double defaultSpeed = 0.4;
-        ElapsedTime timer = new ElapsedTime();
 
-        waitForStart();
+
+        //subs for waitForStart()
+        while (!opModeIsActive() && !isStopRequested()) {
+            telemetry.addData("status", "waiting for start command...");
+            telemetry.update();
+        }
+
+        while (opModeIsActive()&&!isStopRequested()) {
 
             //change to use a more robust function later
             while (!robot.hangArm.isFullyLowered()) {
@@ -167,36 +184,38 @@ public class DepotAuto extends LinearOpMode {
                     break;
 
                 case UNKNOWN:
-//                    //Drive to and push middle block to the depot
-//                    robot.driveTrain.driveRight(this, 55, defaultSpeed, 10);
-//                    robot.pause(250);
-//                    //deposit marker
-//                    robot.markerDeploy.deploy();
-//                    robot.pause(250);
-//                    //Release marker
-//                    robot.driveTrain.driveRight(this, 1, 0.2, 3);
-//                    robot.pause(250);
-//                    //retract marker servo
-//                    robot.markerDeploy.retract();
-//                    robot.pause(250);
-//                    //back off of the block to avoid hitting it when turning.
-//                    robot.driveTrain.driveLeft(this, 5, 0.2, 3);
-//                    robot.pause(250);
-//                    //turn to be parallel with wall
-//                    robot.gyroAutoDriver.turn(-30, defaultSpeed, 5);
-//                    robot.pause(250);
-//                    //drive toward the wall
-//                    robot.driveTrain.translateForward(this, 20, defaultSpeed, 5);
-//                    robot.pause(250);
-//                    //drive away from the wall
-//                    robot.driveTrain.translateBackward(this, 5, defaultSpeed, 5);
-//                    robot.pause(250);
-//                    //drive to crater
-//                    robot.gyroAutoDriver.driveBackwards(125, 0.5);
-//                    break;
+                    //Drive to and push middle block to the depot
+                    robot.driveTrain.driveRight(this, 55, defaultSpeed, 10);
+                    robot.pause(250);
+                    //deposit marker
+                    robot.markerDeploy.deploy();
+                    robot.pause(250);
+                    //Release marker
+                    robot.driveTrain.driveRight(this, 1, 0.2, 3);
+                    robot.pause(250);
+                    //retract marker servo
+                    robot.markerDeploy.retract();
+                    robot.pause(250);
+                    //back off of the block to avoid hitting it when turning.
+                    robot.driveTrain.driveLeft(this, 5, 0.2, 3);
+                    robot.pause(250);
+                    //turn to be parallel with wall
+                    robot.gyroAutoDriver.turn(-30, defaultSpeed, 5);
+                    robot.pause(250);
+                    //drive toward the wall
+                    robot.driveTrain.translateForward(this, 20, defaultSpeed, 5);
+                    robot.pause(250);
+                    //drive away from the wall
+                    robot.driveTrain.translateBackward(this, 5, defaultSpeed, 5);
+                    robot.pause(250);
+                    //drive to crater
+                    robot.gyroAutoDriver.driveBackwards(125, 0.5);
+                    break;
                 default: //like unknown
                     //drive straight and hope the block is there
                     break;
             }
+            break;
         }
     }
+}

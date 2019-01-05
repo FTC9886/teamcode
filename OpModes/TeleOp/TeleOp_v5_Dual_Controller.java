@@ -18,9 +18,14 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         robot.driveTrain.right_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.driveTrain.left_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.driveTrain.right_back_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
     }
+    @Override
+    public void init_loop() {
+        // If you are using Motorola E4 phones,
+        // you should send telemetry data while waiting for start.
+        telemetry.addData("status", "loop test... waiting for start");
+    }
+
 
 
     @Override
