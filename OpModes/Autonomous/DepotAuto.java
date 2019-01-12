@@ -65,9 +65,6 @@ public class DepotAuto extends LinearOpMode{
             timer.reset();
             while (goldPosition == Michaels_tensor_flow.goldfinder.UNKNOWN && timer.seconds() < 5) {
                 goldPosition = tensor_flow.getGoldPosition(telemetry);
-//            if (timer.seconds() > 5){
-//                break;
-//            }
             }
             telemetry.addData("Position", goldPosition);
             telemetry.update();
