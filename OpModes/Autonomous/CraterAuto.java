@@ -62,9 +62,6 @@ public class CraterAuto extends LinearOpMode {
             timer.reset();
             while (goldPosition == Michaels_tensor_flow.goldfinder.UNKNOWN && timer.seconds() < 5) {
                 goldPosition = tensor_flow.getGoldPosition(telemetry);
-//            if(timer.seconds()>15){
-//                break;
-//            }
             }
             telemetry.addData("Position", goldPosition);
             telemetry.update();
@@ -222,7 +219,6 @@ public class CraterAuto extends LinearOpMode {
                     robot.markerDeploy.retract();
                     robot.pause(250);
                     //drive to crater
-                    //robot.driveLeft(this, 64, 0.5, 10);
                     robot.gyroAutoDriver.driveBackwards(125, 0.5);
                     break;
                 default: //like unknown
