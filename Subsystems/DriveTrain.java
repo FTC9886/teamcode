@@ -6,19 +6,21 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class DriveTrain {
-    //Define Drivetrain
-    public DcMotor  left_front_drive   = null;
-    public DcMotor  right_front_drive  = null;
-    public DcMotor  left_back_drive    = null;
-    public DcMotor  right_back_drive   = null;
+    //Define Drivetrain motors
+    public DcMotor  left_front_drive;
+    public DcMotor  right_front_drive;
+    public DcMotor  left_back_drive;
+    public DcMotor  right_back_drive;
 
-    private enum ExtenderArmEnum{
-        EXTENDING,
-        RETRACTING,
+    private enum DriveTrainEnum{
+        FORWARDS,
+        BACKWARDS,
+        LEFT,
+        RIGHT,
         STOPPED
     }
 
-    private ExtenderArmEnum extenderArmState;
+    private DriveTrainEnum driveTrainState;
 
     public DriveTrain(String leftFront, String leftBack,String rightFront, String rightBack, HardwareMap hardwareMap){
         this.left_front_drive = hardwareMap.dcMotor.get(leftFront);
@@ -73,22 +75,29 @@ public class DriveTrain {
     public static final double     COUNTS_PER_INCH_FandB   = (COUNTS_PER_MOTOR_REV * 0.958 * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1416);
 
-    //Used to power the right side of the drive for the Gyro Auto Driver
+    //Function to set power for the right side of the drive for the GyroAutoDriver.
+    // Considers front of the robot to be side facing direction the robot moves when positive power is passed to drive train motors
     public void rightDrivePower(double power){
         left_front_drive.setPower(power);
         right_front_drive.setPower(power);
     }
-    //Used to power the left side of the drivetrain for the Gyro Auto Driver
+    
+    //Function to set power for the left side of the drivetrain for the GyroAutoDriver.
+    // Considers front of the robot to be side facing direction the robot moves when positive power is passed to drive train motors
     public void leftDrivePower(double power){
         left_back_drive.setPower(power);
         right_back_drive.setPower(power);
     }
-    //Used to set power for both sides of the drivetrain at once
+
+    //Function to set power for both sides of the drivetrain at once for the GyroAutoDriver
+    // Considers front of the robot to be side facing direction the robot moves when positive power is passed to drive train motors
     public void drivePowers(double leftSpeed, double rightSpeed){
         leftDrivePower(leftSpeed);
         rightDrivePower(rightSpeed);
     }
 
+    //Function used to set DriveTrain power using joysticks. Intended to be used for tank drive.
+    // Considers front of the robot to be side of the robot that the Collector faces.
     public void stickPower(double leftPower, double rightPower){
         left_front_drive.setPower (leftPower);
         right_back_drive.setPower (-rightPower);
@@ -96,7 +105,8 @@ public class DriveTrain {
         left_back_drive.setPower  (-leftPower);
     }
 
-
+    //Function that takes a power value and drives the robot forwards. Intended to be used in TeleOp in conjunction with a button or D-pad directoin
+    //Considers front of the robot to be side of the robot that the Collector faces.
     public void forwards(double power){
         left_front_drive.setPower (-power);
         right_back_drive.setPower (-power);
@@ -105,6 +115,8 @@ public class DriveTrain {
 
     }
 
+    //Function that takes a power value and drives the robot backwards. Intended to be used in TeleOp in conjunction with a button or D-pad directoin
+    //Considers front of the robot to be side of the robot that the Collector faces.
     public void backwards(double power){
         left_front_drive.setPower (power);
         right_back_drive.setPower (power);
@@ -236,11 +248,15 @@ public class DriveTrain {
     }
     @Override
     public String toString(){
-        switch (extenderArmState){
-            case EXTENDING:
-                return "Extending";
-            case RETRACTING:
-                return "Retracting";
+        switch (driveTrainState){
+            case FORWARDS:
+                return "Driving Forwards";
+            case BACKWARDS:
+                return "Driving Backwards";
+            case LEFT:
+                return "Driving Left";
+            case RIGHT:
+                return "Driving Right";
             case STOPPED:
                 return "Stopped";
             default:
