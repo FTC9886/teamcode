@@ -81,7 +81,7 @@ public class DriveTrain {
         left_front_drive.setPower(power);
         right_front_drive.setPower(power);
     }
-    
+
     //Function to set power for the left side of the drivetrain for the GyroAutoDriver.
     // Considers front of the robot to be side facing direction the robot moves when positive power is passed to drive train motors
     public void leftDrivePower(double power){
