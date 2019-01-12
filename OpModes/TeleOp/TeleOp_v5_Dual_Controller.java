@@ -6,13 +6,21 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Extensions.CombinedHardware;
 
+/*
+TeleOp_V5_Dual_Controller is our team's primary TeleOp OpMode, it is built to split control of the robot between two drivers.
+The first driver controls the DriveTrain using both joysticks, the d-pad, and triggers and the HangArm using the 'A' and 'Y' buttons.
+The second driver controls the ExtenderArm using the 'A' and 'Y' buttons, the RotateArm using the d-pad and left joystick, and the Collector using the bumpers.
+ */
+
 @TeleOp(name = "Mec Tank v5", group = "Mec Tank v5")
 public class TeleOp_v5_Dual_Controller extends OpMode {
+    //Call Combined hardware as new object 'robot'
     CombinedHardware robot = new CombinedHardware();
 
 
     @Override
     public void init(){
+        //initialize hardware map and set motors to run without encoders
         robot.init(hardwareMap);
         robot.driveTrain.left_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.driveTrain.right_front_drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -24,6 +32,7 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         // If you are using Motorola E4 phones,
         // you should send telemetry data while waiting for start.
         telemetry.addData("status", "loop test... waiting for start");
+        telemetry.update();
     }
 
 
@@ -41,10 +50,6 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         if(gamepad1_left > 0.1 || gamepad1_left < -0.1 || gamepad1_right > 0.1 || gamepad1_right < -0.1)
         {
             robot.driveTrain.stickPower(gamepad1_left,gamepad1_right);
-//            robot.driveTrain.left_front_drive.setPower (gamepad1_left);
-//            robot.driveTrain.right_front_drive.setPower(gamepad1_right);
-//            robot.driveTrain.left_back_drive.setPower  (-gamepad1_left);
-//            robot.driveTrain.right_back_drive.setPower (-gamepad1_right);
         }
         //Translate left and right
         else if (gamepad1.right_trigger > 0.1)
@@ -54,7 +59,6 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         else if (gamepad1.left_trigger > 0.1)
         {
             robot.driveTrain.teleTranslate(gamepad1.left_trigger/1.5);
-
         }
         //D-pad Driving
         else if (gamepad1.dpad_up)
