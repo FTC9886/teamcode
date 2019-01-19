@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+//Subsystem class. Defines motors/servos/sensors used only by the subsystem, an enumeration outlining the states the subsystem can be in, and functions that control those states
 
 public class MarkerDeploy {
     //Declares a new servo object
