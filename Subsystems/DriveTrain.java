@@ -26,7 +26,7 @@ public class DriveTrain {
     //Creates a new DriveTrainEnum
     private DriveTrainEnum driveTrainState;
 
-    //Defines the DriveTrain object. It is called in the CombinedHardware class/extension where it joins the other subsystems in the robot object and hardware map.
+    //Defines the DriveTrain constructor. It is called in the CombinedHardware class/extension where it joins the other subsystems in the robot object and hardware map.
     //Sets default state of the DriveTrain
     public DriveTrain(String leftFront, String leftBack,String rightFront, String rightBack, HardwareMap hardwareMap){
         this.left_front_drive = hardwareMap.dcMotor.get(leftFront);

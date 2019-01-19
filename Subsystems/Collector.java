@@ -17,7 +17,8 @@ public class Collector {
     //Declare a new CollectorEnum
     private CollectorEnum collectorState;
 
-    //Section for hardware map and setting the initial state of the subsystem
+    //Defines the Collector Constructor. It is called in the CombinedHardware class/extension where it joins the other subsystems in the robot object and hardware map.
+    //Sets the default state of the Collector
     public Collector(String collector_motor, HardwareMap hardwareMap){
         this.collector = hardwareMap.dcMotor.get(collector_motor);
         stop();
@@ -41,7 +42,7 @@ public class Collector {
         collectorState = CollectorEnum.STOPPED;
     }
 
-    //Strings for each enumeration value, can be printed to telemetry if desired
+    //Strings for each CollectorEnum value, can be printed as telemetry
     @Override
     public String toString(){
         switch (collectorState){

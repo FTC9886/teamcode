@@ -18,7 +18,8 @@ public class RotateArm {
     //Declare a new RotateArmEnum
     private RotateArmEnum rotateArmState;
 
-    //Section for hardware map, setting motor behavior, and setting the initial state of the subsystem
+    //Defines the RotateArm constructor. It is called in the CombinedHardware class/extension where it joins the other subsystems in the robot object and hardware map.
+    //Sets the default state of the RotateArm
     public RotateArm(String rotateMotor, HardwareMap hardwareMap){
         this.rotateMotor = hardwareMap.dcMotor.get(rotateMotor);
         this.rotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -49,7 +50,7 @@ public class RotateArm {
         rotateArmState = RotateArm.RotateArmEnum.STOPPED;
     }
 
-//Strings for each enumeration value, can be printed to telemetry if desired
+    //String that uses the values from the RotateArmEnum. Can be printed as telemetry
     @Override
     public String toString(){
         switch (rotateArmState){
