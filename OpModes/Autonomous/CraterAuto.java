@@ -13,27 +13,22 @@ import org.firstinspires.ftc.teamcode.Extensions.Michaels_tensor_flow;
 //@Disabled
 
 public class CraterAuto extends LinearOpMode {
-    CombinedHardware robot = new CombinedHardware(); // use the class created to define a Pushbot's hardware
+    //Declares new objects that will be used in the OpMode
+    CombinedHardware robot = new CombinedHardware();
     Michaels_tensor_flow tensor_flow = new Michaels_tensor_flow();
     ElapsedTime timer = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-
-        /* Declare OpMode members. */
-
-        // could also use HardwarePushbotMatrix class.
-
-        /* Initialize the hardware variables.
-         * The init() method of the hardware class does all the work here
-         */
+        //initializes the robot hardware map
         robot.init(hardwareMap);
 
-
+        //Defines double that sets the most commonly used speed for navigation, can be changed to easily change speed of autonomous program
         double defaultSpeed = 0.4;
 
+        //Initializes tensorflow
         tensor_flow.init(this);
+        //Turns camera light on
         CameraDevice.getInstance().setFlashTorchMode(true);
 
         //subs for waitForStart()

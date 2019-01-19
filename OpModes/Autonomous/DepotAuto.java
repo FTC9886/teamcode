@@ -15,7 +15,8 @@ import java.util.concurrent.TimeoutException;
 //@Disabled
 
 public class DepotAuto extends LinearOpMode{
-    CombinedHardware robot = new CombinedHardware(); // use the class created to define a Pushbot's hardware
+    //Declares new objects that will be used in the OpMode
+    CombinedHardware robot = new CombinedHardware();
     Michaels_tensor_flow tensor_flow = new Michaels_tensor_flow();
     ElapsedTime timer = new ElapsedTime();
 
@@ -23,22 +24,16 @@ public class DepotAuto extends LinearOpMode{
 
     @Override
     public void runOpMode() throws RuntimeException{
+        //initializes the robot hardware map
+        robot.init(hardwareMap);
 
-            /* Declare OpMode members. */
+        //Defines double that sets the most commonly used speed for navigation, can be changed to easily change speed of autonomous program
+        double defaultSpeed = 0.4;
 
-            // could also use HardwarePushbotMatrix class.
-
-            /* Initialize the hardware variables.
-             * The init() method of the hardware class does all the work here
-             */
-            robot.init(hardwareMap);
-
-
-            double defaultSpeed = 0.4;
-            int count = 0;
+        //Initializes tensorflow
         tensor_flow.init(this);
+        //Turns camera light on
         CameraDevice.getInstance().setFlashTorchMode(true);
-
 
         //subs for waitForStart()
         while (!opModeIsActive() && !isStopRequested()) {
