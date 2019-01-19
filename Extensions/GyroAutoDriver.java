@@ -38,8 +38,6 @@ public void driveBackwards(float distance, double power){
     double target = Heading();
     hw.driveTrain.resetEncoders();
     hw.pause(100);
-//    hw.rightDrivePower(power);
-//    hw.leftDrivePower(power);
 
     while(hw.driveTrain.left_front_drive.getCurrentPosition() < (hw.driveTrain.COUNTS_PER_INCH_LandR * (distance/2)) && hw.driveTrain.left_back_drive.getCurrentPosition() < (hw.driveTrain.COUNTS_PER_INCH_LandR * (distance/2)) /*&& hw.opMode.opModeIsActive()*/)
     {
