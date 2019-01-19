@@ -46,6 +46,7 @@ public class CombinedHardware {
     {
     }
 
+    //Function that creates new objects for each subsystem and creates a hardware map. Used in the init sections of OpModes
     public void init(HardwareMap ahwMap){
         hwMap = ahwMap;
 
