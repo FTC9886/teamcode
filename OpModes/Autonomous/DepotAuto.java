@@ -70,16 +70,17 @@ public class DepotAuto extends LinearOpMode{
 
             switch (goldPosition) {
                 case LEFT:
+                    //drive 2" from minerals
                     robot.driveTrain.driveRight(this, 14, defaultSpeed, 3);
                     robot.pause(250);
-                    //drive 2" from minerals
+                    //drive to left block
                     robot.driveTrain.translateForward(this, 21, defaultSpeed, 5);
                     robot.pause(250);
-                    //drive to left block
-                    robot.driveTrain.driveRight(this, 10, defaultSpeed, 5);
+                    //sample gold
+                    robot.driveTrain.driveRight(this, 6, defaultSpeed, 5);
                     robot.pause(250);
                     //Pull back from block
-                    robot.driveTrain.driveLeft(this, 8, defaultSpeed, 3);
+                    robot.driveTrain.driveLeft(this, 4, defaultSpeed, 3);
                     robot.pause(250);
                     //turn robot to the left to face the wall
                     robot.gyroAutoDriver.turn(-30, 0.2, 5);
@@ -103,16 +104,23 @@ public class DepotAuto extends LinearOpMode{
                     robot.markerDeploy.retract();
                     robot.pause(250);
                     //drive to crater
-                    robot.gyroAutoDriver.driveBackwards(120, 0.5);
+                    robot.gyroAutoDriver.driveBackwards(90, 0.5);
+                    robot.pause(500);
+                    //drive toward the wall
+                    robot.driveTrain.translateForward(this, 10, 0.5, 3);
+                    robot.pause(250);
+                    //drive to crater
+                    robot.gyroAutoDriver.driveBackwards(20, 0.5);
                     break;
 
                 case RIGHT:
+                    //drive 2" from minerals
                     robot.driveTrain.driveRight(this, 14, defaultSpeed, 3);
                     robot.pause(250);
-                    //drive 2" from minerals
+                    //drive to right block
                     robot.driveTrain.translateBackward(this, 13.5, 0.2, 5);
                     robot.pause(250);
-                    //drive to right block
+                    //push right block
                     robot.driveTrain.driveRight(this, 6, defaultSpeed, 5);
                     robot.pause(250);
                     //back up
@@ -143,7 +151,13 @@ public class DepotAuto extends LinearOpMode{
                     robot.markerDeploy.retract();
                     robot.pause(250);
                     //drive to crater
-                    robot.gyroAutoDriver.driveBackwards(140, 0.5);
+                    robot.gyroAutoDriver.driveBackwards(100, 0.5);
+                    robot.pause(500);
+                    //drive toward the wall
+                    robot.driveTrain.translateForward(this, 10, 0.5, 3);
+                    robot.pause(250);
+                    //drive to crater
+                    robot.gyroAutoDriver.driveBackwards(20, 0.5);
                     break;
 
                 case MIDDLE:
@@ -172,7 +186,13 @@ public class DepotAuto extends LinearOpMode{
                     robot.driveTrain.translateBackward(this, 5, defaultSpeed, 5);
                     robot.pause(250);
                     //drive to crater
-                    robot.gyroAutoDriver.driveBackwards(125, 0.5);
+                    robot.gyroAutoDriver.driveBackwards(95, 0.5);
+                    robot.pause(500);
+                    //drive toward the wall
+                    robot.driveTrain.translateForward(this, 10, 0.5, 3);
+                    robot.pause(250);
+                    //drive to crater
+                    robot.gyroAutoDriver.driveBackwards(20, 0.5);
                     break;
 
                 case UNKNOWN:
@@ -201,7 +221,13 @@ public class DepotAuto extends LinearOpMode{
                     robot.driveTrain.translateBackward(this, 5, defaultSpeed, 5);
                     robot.pause(250);
                     //drive to crater
-                    robot.gyroAutoDriver.driveBackwards(125, 0.5);
+                    robot.gyroAutoDriver.driveBackwards(95, 0.5);
+                    robot.pause(500);
+                    //drive toward the wall
+                    robot.driveTrain.translateForward(this, 10, 0.5, 3);
+                    robot.pause(250);
+                    //drive to crater
+                    robot.gyroAutoDriver.driveBackwards(20, 0.5);
                     break;
                 default: //like unknown
                     //drive straight and hope the block is there

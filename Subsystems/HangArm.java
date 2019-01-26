@@ -52,7 +52,7 @@ public class HangArm {
         if (isFullyLowered()) {
             stop();
         } else {
-            linearDrive.setPower(-0.75);
+            linearDrive.setPower(-1.00);
             hangArmState = HangArmEnum.LOWERING;
         }
     }

@@ -47,18 +47,18 @@ public class TeleOp_v5_Dual_Controller extends OpMode {
         double gamepad1_right = 0.0;
         gamepad1_left = gamepad1.left_stick_y;
         gamepad1_right = -gamepad1.right_stick_y;
-        if(gamepad1_left > 0.1 || gamepad1_left < -0.1 || gamepad1_right > 0.1 || gamepad1_right < -0.1)
+        if(gamepad1_left > 0.05 || gamepad1_left < -0.05 || gamepad1_right > 0.05 || gamepad1_right < -0.05)
         {
             robot.driveTrain.stickPower(gamepad1_left,gamepad1_right);
         }
         //Translate left and right
         else if (gamepad1.right_trigger > 0.1)
         {
-            robot.driveTrain.teleTranslate(-gamepad1.right_trigger/1.5);
+            robot.driveTrain.teleTranslate(-gamepad1.right_trigger);
         }
         else if (gamepad1.left_trigger > 0.1)
         {
-            robot.driveTrain.teleTranslate(gamepad1.left_trigger/1.5);
+            robot.driveTrain.teleTranslate(gamepad1.left_trigger);
         }
         //D-pad Driving
         else if (gamepad1.dpad_up)

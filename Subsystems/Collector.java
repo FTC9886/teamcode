@@ -28,13 +28,13 @@ public class Collector {
 
     //Function that sets motor power to set value to collect minerals
     public void collect(){
-        collector.setPower(0.5);
+        collector.setPower(0.7);
         collectorState = CollectorEnum.COLLECTING;
     }
 
     //Function that sets motor power to set value to eject minerals from collection bin
     public void eject(){
-        collector.setPower(-0.5);
+        collector.setPower(-0.7);
         collectorState = CollectorEnum.EJECTING;
     }
 
